@@ -1,19 +1,26 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import DataTable from './DataTable';
 import Filters from './Filters';
 
-import './App.css';
+import '../reset.css';
+
+const StyledApp = styled.div`
+  font-family: Lato;
+  display: flex;
+`;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       allData: [{
-        completed: "11/3/2019",
+        completed: 1,
         suggested: "10/14/2019",
         startDate: "10/20/2019",
         dateCompleted: "11/3/2019",
-        priority: 1,
+        priority: 3,
         priorityScore: 17,
         page: "global",
         testName: "Increase Value Proposition",
@@ -21,7 +28,7 @@ class App extends React.Component {
         increaseDecrease: "increase",
         Hypothesis: "value proposition",
         primaryMetric: "Conversion Rate",
-        status: "completed",
+        status: "win",
         uplift: "4%",
         revenueLift: "$15000",
         transactionsLift: "150",
@@ -29,11 +36,11 @@ class App extends React.Component {
         industry: "automotive"
       },
       {
-        completed: "11/3/2019",
+        completed: 1,
         suggested: "10/14/2019",
         startDate: "10/20/2019",
         dateCompleted: "11/3/2019",
-        priority: 1,
+        priority: 2,
         priorityScore: 17,
         page: "global",
         testName: "Increase Value Proposition",
@@ -41,14 +48,14 @@ class App extends React.Component {
         increaseDecrease: "increase",
         Hypothesis: "value proposition",
         primaryMetric: "Conversion Rate",
-        status: "completed",
+        status: "win",
         uplift: "4%",
         revenueLift: "$15000",
         transactionsLift: "150",
         client: "Advance Auto Parts",
         industry: "automotive"
       }, {
-        completed: "11/3/2019",
+        completed: 1,
         suggested: "10/14/2019",
         startDate: "10/20/2019",
         dateCompleted: "11/3/2019",
@@ -60,7 +67,7 @@ class App extends React.Component {
         increaseDecrease: "increase",
         Hypothesis: "value proposition",
         primaryMetric: "Conversion Rate",
-        status: "completed",
+        status: "win",
         uplift: "4%",
         revenueLift: "$15000",
         transactionsLift: "150",
@@ -68,14 +75,20 @@ class App extends React.Component {
         industry: "automotive"
       }],
     };
+    this.makeAllDataSmileys = this.makeAllDataSmileys.bind(this);
+  }
+
+  //function to test manipulating parent state by passing to children
+  makeAllDataSmileys(){
+    this.setState({allData: [{client: '😀', lift: '😀'}]});
   }
 
   render() {
     return (
-      <div className="App">
+      <StyledApp className="App">
         <Filters />
-        <DataTable data={this.state.allData} />
-      </div>
+        <DataTable data={this.state.allData} onColumnClick={this.makeAllDataSmileys} />
+      </StyledApp>
     );
   }
 }
