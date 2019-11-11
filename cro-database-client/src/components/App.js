@@ -55,11 +55,11 @@ class App extends React.Component {
         client: "Advance Auto Parts",
         industry: "automotive"
       }, {
+<<<<<<< HEAD
         completed: 1,
+=======
+        completed: "11/3/2019",
         suggested: "10/14/2019",
-        startDate: "10/20/2019",
-        dateCompleted: "11/3/2019",
-        priority: 1,
         priorityScore: 17,
         page: "global",
         testName: "Increase Value Proposition",
@@ -67,7 +67,11 @@ class App extends React.Component {
         increaseDecrease: "increase",
         Hypothesis: "value proposition",
         primaryMetric: "Conversion Rate",
+<<<<<<< HEAD
         status: "win",
+=======
+        status: "completed",
+>>>>>>> d78e1168693fce30c5141da352dd3892cc9c62ba
         uplift: "4%",
         revenueLift: "$15000",
         transactionsLift: "150",
