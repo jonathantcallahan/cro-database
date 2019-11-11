@@ -9,19 +9,63 @@ class App extends React.Component {
     super(props);
     this.state = {
       allData: [{
-        client: "Advance Auto Parts",
+        completed: "11/3/2019",
+        suggested: "10/14/2019",
+        startDate: "10/20/2019",
+        dateCompleted: "11/3/2019",
+        priority: 1,
+        priorityScore: 17,
+        page: "global",
         testName: "Increase Value Proposition",
-        result: "Win"
-      },
-      {
+        device: "all",
+        increaseDecrease: "increase",
+        Hypothesis: "value proposition",
+        primaryMetric: "Conversion Rate",
+        status: "completed",
+        uplift: "4%",
+        revenueLift: "$15000",
+        transactionsLift: "150",
         client: "Advance Auto Parts",
-        testName: "Chat-Style AAV",
-        result: "Loss"
+        industry: "automotive"
       },
       {
-        client: "Puma",
-        testName: "PDP Redesign",
-        result: "Win"
+        completed: "11/3/2019",
+        suggested: "10/14/2019",
+        startDate: "10/20/2019",
+        dateCompleted: "11/3/2019",
+        priority: 1,
+        priorityScore: 17,
+        page: "global",
+        testName: "Increase Value Proposition",
+        device: "all",
+        increaseDecrease: "increase",
+        Hypothesis: "value proposition",
+        primaryMetric: "Conversion Rate",
+        status: "completed",
+        uplift: "4%",
+        revenueLift: "$15000",
+        transactionsLift: "150",
+        client: "Advance Auto Parts",
+        industry: "automotive"
+      }, {
+        completed: "11/3/2019",
+        suggested: "10/14/2019",
+        startDate: "10/20/2019",
+        dateCompleted: "11/3/2019",
+        priority: 1,
+        priorityScore: 17,
+        page: "global",
+        testName: "Increase Value Proposition",
+        device: "all",
+        increaseDecrease: "increase",
+        Hypothesis: "value proposition",
+        primaryMetric: "Conversion Rate",
+        status: "completed",
+        uplift: "4%",
+        revenueLift: "$15000",
+        transactionsLift: "150",
+        client: "Advance Auto Parts",
+        industry: "automotive"
       }],
     };
   }
