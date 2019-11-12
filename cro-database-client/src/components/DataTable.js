@@ -27,6 +27,7 @@ const StyledTr = styled.tr`
 
 const StyledTh = styled.th`
   padding: 10px 20px;
+  cursor: s-resize;
 `
 
 const StyledThead = styled.thead`
@@ -36,7 +37,7 @@ const StyledThead = styled.thead`
 export default class DataTable extends React.Component {
 
     render() {
-        let columns = Object.keys(this.props.data[0]).map((field, key) => <StyledTh key={key} onClick={this.props.onColumnClick}>{field}</StyledTh>);
+        let columns = Object.keys(this.props.data[0]).map((field, key) => <StyledTh key={key} onClick={e => this.props.onColumnClick(e.target.innerText)}>{field}</StyledTh>);
         let trs = this.props.data.map(function (record, key) {
             var tds = Object.keys(record).map((field, key) => <StyledTd key={key}>{record[field]}</StyledTd>);
             return <StyledTr key={key}>{tds}</StyledTr>;
