@@ -137,13 +137,16 @@ class App extends React.Component {
       }],
     };
     this.sortByColumn = this.sortByColumn.bind(this);
+    this.filterData = this.filterData.bind(this);
+    this.resetSortandFilters = this.resetSortandFilters.bind(this);
   }
 
-  sortByColumn(columnName){
-    this.setState(state => state.filteredData.sort(
-      function(testA, testB){
+  sortByColumn(columnName) {
+    //TODO: add secondary click to reverse sort
+    this.setState({filteredData: this.state.filteredData.sort(
+      function (testA, testB) {
         //if strings, sort alphabetically
-        if((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")){
+        if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
           var textA = testA[columnName].toUpperCase();
           var textB = testB[columnName].toUpperCase();
           if (textA < textB) {
@@ -156,13 +159,21 @@ class App extends React.Component {
         }
         //else sort numerically
         return testA[columnName] - testB[columnName]
-      }));
+      })});
+  }
+
+  filterData(columnName, condition) {
+    this.setState({filteredData: this.state.filteredData.filter(test => test[columnName] === condition)});
+  }
+
+  resetSortandFilters(){
+    this.setState({filteredData: this.state.allData});
   }
 
   render() {
     return (
       <StyledApp className="App">
-        <Filters />
+        <Filters data={this.state.filteredData} filterFunction={this.filterData} resetSortandFiltersFunction={this.resetSortandFilters} />
         <DataTable data={this.state.filteredData} onColumnClick={this.sortByColumn} />
       </StyledApp>
     );
