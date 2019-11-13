@@ -2,15 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledDropdownFilter = styled.div`
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-radius: 5px;
 `
+const filterPadding = "20px";
 
 const StyledFilterTitle = styled.span`
     font-weight: bold;
+    background: #ccc;
+    padding: ${filterPadding} ${filterPadding} 5px ${filterPadding};
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 1px;
 `
 
 const StyledSelect = styled.select`
     font-weight: bold;
+    margin: ${filterPadding} ${filterPadding} ${filterPadding} ${filterPadding};
 `
 
 export default class DropdownFilter extends React.Component {
