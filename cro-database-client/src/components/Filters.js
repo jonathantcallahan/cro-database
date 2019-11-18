@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import DropdownFilter from './DropdownFilter';
+import Search from './Search';
 
 const StyledFilters = styled.div`
     width: 20vw;
@@ -44,11 +45,12 @@ export default class Filters extends React.Component {
         //to add more DropdownFilters, add array of options as above, filterColumn should be the column name from data source, then add an entry to mapColumnsToFilterTitles in DropdownFilter component for more human-readable title
         return (
             <StyledFilters>
-                <StyledFiltersTitle>🛠 Filters</StyledFiltersTitle>
+                <StyledFiltersTitle><span role="img" aria-label="filters">🧭</span> Filters</StyledFiltersTitle>
                 <StyledResetButton onClick={this.props.resetFiltersFunction}>Reset</StyledResetButton>
                 <DropdownFilter filterColumn="page" options={pageTypeOptions} onChange={this.props.filterFunction} />
                 <DropdownFilter filterColumn="client" options={clientOptions} onChange={this.props.filterFunction} />
                 <DropdownFilter filterColumn="industry" options={industryOptions} onChange={this.props.filterFunction} />
+                <Search onChange={this.props.searchFunction} />
             </StyledFilters>
         );
     }

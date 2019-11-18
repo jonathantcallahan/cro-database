@@ -75,13 +75,15 @@ class App extends React.Component {
         transactionsLift: "150",
         client: "Advance Auto Parts",
         industry: "automotive"
-      }]
+      }],
+      searchString: ''
     };
     this.sortByColumn = this.sortByColumn.bind(this);
     this.resetFilters = this.resetFilters.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.getFilteredData = this.getFilteredData.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   sortByColumn(columnName) {
@@ -106,10 +108,14 @@ class App extends React.Component {
   }
 
   resetFilters(){
-    this.setState({appliedFilters: []});
+    this.setState({appliedFilters: [], searchString: ''});
     let selects = document.getElementsByTagName('select');
     for (let select of selects){
       select.selectedIndex = 0;
+    }
+    let inputs = document.getElementsByTagName('input');
+    for (let input of inputs){
+      input.value = '';
     }
   }
 
@@ -143,17 +149,28 @@ class App extends React.Component {
   }
 
   getFilteredData(){
-    if (this.state.appliedFilters.length){
-      return this.state.appliedFilters.reduce((a, b) => this.applyFilter(a, b.column, b.condition), this.state.allData);
-    }
-    return this.state.allData;
+    let searchedData = this.state.allData.filter(test => {
+      for (let column in test){
+        if(test[column].toString().toLowerCase().includes(this.state.searchString)){
+          return true;
+        }
+      }
+      return false;
+    })
+    
+    //applies all filters in appliedFilters array to the searchedData (already filtered by search box)
+    return this.state.appliedFilters.reduce((a, b) => this.applyFilter(a, b.column, b.condition), searchedData);
+  }
+
+  updateSearch(string){
+    this.setState({searchString: string.toLowerCase()});
   }
 
   render() {
     return (
       <StyledApp className="App">
-        <Filters data={this.state.allData} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} />
-        <DataTable data={this.getFilteredData()} onColumnClick={this.sortByColumn} />
+        <Filters data={this.state.allData} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} searchFunction={this.updateSearch} />
+        <DataTable data={this.getFilteredData()} onColumnClick={this.sortByColumn} searchString={this.state.searchString} />
       </StyledApp>
     );
   }
