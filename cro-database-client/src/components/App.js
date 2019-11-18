@@ -107,6 +107,10 @@ class App extends React.Component {
 
   resetFilters(){
     this.setState({appliedFilters: []});
+    let selects = document.getElementsByTagName('select');
+    for (let select of selects){
+      select.selectedIndex = 0;
+    }
   }
 
   applyFilter(data, columnName, condition){
