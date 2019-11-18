@@ -4,7 +4,7 @@ import styled from 'styled-components';
 //allows table to scroll
 const StyledTableWrapper = styled.div`
   overflow: auto;
-  max-height: 100vh;
+  height: 100vh;
 `
 
 const StyledTable = styled.table`
@@ -12,7 +12,7 @@ const StyledTable = styled.table`
   width: 100%;
 `
 const StyledTd = styled.td`
-  border-bottom : 1px solid #ccc;
+  border-bottom : 1px solid #e6e6e6;
   padding: 20px;
   white-space: nowrap;
 `
@@ -29,6 +29,12 @@ const StyledTr = styled.tr`
 const StyledTh = styled.th`
   padding: 10px 20px;
   cursor: s-resize;
+  text-transform: uppercase;
+  font-size: 12px;
+  vertical-align: middle;
+  font-weight: 600;
+  color: #656565;
+  letter-spacing: .5px;
 `
 
 const StyledThead = styled.thead`

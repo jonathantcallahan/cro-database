@@ -30,6 +30,7 @@ const StyledResetButton = styled.button`
     &:hover{
         border-bottom-color: #9d9d9d;
     }
+    transition: border-bottom-color .2s;
 `
 const StyledFiltersTitle = styled.span`
     font-size: 24px;

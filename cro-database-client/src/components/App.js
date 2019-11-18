@@ -89,6 +89,8 @@ class App extends React.Component {
   }
 
   sortByColumn(columnName) {
+    //column sort not working due to case conflict
+    console.log(`sorting by column ${columnName}`);
     //TODO: add secondary click to reverse sort
     this.setState({allData: this.state.allData.sort(
       function (testA, testB) {

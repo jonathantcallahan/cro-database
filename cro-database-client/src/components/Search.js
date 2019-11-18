@@ -3,6 +3,20 @@ import styled from 'styled-components';
 
 const searchPadding = "20px";
 
+const StyledSearch = styled.div`
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border-bottom-width: 3px;
+    border-bottom-color: #bbb;
+    &:hover{
+        border-bottom-color: #888;
+    }
+    transition: border-bottom-color .2s;
+`
+
 const StyledSearchTitle = styled.span`
     font-weight: bold;
     background: #ddd;
@@ -13,16 +27,6 @@ const StyledSearchTitle = styled.span`
     text-transform: uppercase;
     color: #444;
     border-radius: 10px 10px 0px 0px;
-`
-
-const StyledSearch = styled.div`
-    border: 1px solid #ccc;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    border-bottom-width: 3px;
-    border-bottom-color: #bbb;
 `
 
 const StyledSearchInput = styled.input`

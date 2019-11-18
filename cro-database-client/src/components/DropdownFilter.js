@@ -9,6 +9,10 @@ const StyledDropdownFilter = styled.div`
     border-radius: 10px;
     border-bottom-width: 3px;
     border-bottom-color: #bbb;
+    &:hover{
+        border-bottom-color: #888;
+    }
+    transition: border-bottom-color .2s;
 `
 const filterPadding = "20px";
 
