@@ -148,7 +148,7 @@ class App extends React.Component {
   render() {
     return (
       <StyledApp className="App">
-        <Filters data={this.state.allData /*this maybe should be allData?*/} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} />
+        <Filters data={this.state.allData} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} />
         <DataTable data={this.getFilteredData()} onColumnClick={this.sortByColumn} />
       </StyledApp>
     );

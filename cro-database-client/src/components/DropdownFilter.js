@@ -38,7 +38,6 @@ const StyledOption = styled.option`
 export default class DropdownFilter extends React.Component {
     render() {
         let options = this.props.options.map((option, key) => <StyledOption key={key}>{option}</StyledOption>);
-        //need to handle crash when user selects this option
         options.unshift(<option>-</option>);
         //more human-readable titles for filters. May want to pull this out and use for column names at some point too
         let mapColumnsToFilterTitles = {
