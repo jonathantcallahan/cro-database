@@ -49,7 +49,7 @@ export default class DropdownFilter extends React.Component {
         return (
             <StyledDropdownFilter>
                 <StyledFilterTitle>{mapColumnsToFilterTitles[this.props.filterColumn] ? mapColumnsToFilterTitles[this.props.filterColumn] : this.props.filterColumn}</StyledFilterTitle>
-                <StyledSelect onChange={e => this.props.onChange(this.props.filterColumn, e.target.value)}>{options}</StyledSelect>
+                <StyledSelect onChange={e => this.props.onChange({column: this.props.filterColumn, condition:e.target.value})}>{options}</StyledSelect>
             </StyledDropdownFilter>
         );
     }

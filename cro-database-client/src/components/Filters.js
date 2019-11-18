@@ -40,13 +40,15 @@ export default class Filters extends React.Component {
     render() {
         let pageTypeOptions = [...new Set(this.props.data.map(test => test.page))]; //array of unique page types. The "Set" thing de-dupes them. Will need to modify "test.page" when we get actual csv column names
         let clientOptions = [...new Set(this.props.data.map(test => test.client))];
+        let industryOptions = [...new Set(this.props.data.map(test => test.industry))];
         //to add more DropdownFilters, add array of options as above, filterColumn should be the column name from data source, then add an entry to mapColumnsToFilterTitles in DropdownFilter component for more human-readable title
         return (
             <StyledFilters>
                 <StyledFiltersTitle>🛠 Filters</StyledFiltersTitle>
-                <StyledResetButton onClick={this.props.resetSortandFiltersFunction}>Reset</StyledResetButton>
+                <StyledResetButton onClick={this.props.resetFiltersFunction}>Reset</StyledResetButton>
                 <DropdownFilter filterColumn="page" options={pageTypeOptions} onChange={this.props.filterFunction} />
                 <DropdownFilter filterColumn="client" options={clientOptions} onChange={this.props.filterFunction} />
+                <DropdownFilter filterColumn="industry" options={industryOptions} onChange={this.props.filterFunction} />
             </StyledFilters>
         );
     }

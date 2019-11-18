@@ -14,9 +14,9 @@ const StyledApp = styled.div`
 class App extends React.Component {
   constructor(props) {
     super(props);
-    //state contains 2 arrays: allData, which should not be modified, and filteredData, which can be sorted and filtered. Will add a reset button that, when pressed, 
-    //copies allData into filteredData. Also copy allData into filteredData on load. This does not allow for removing filters after adding - save that for v2
+    //state contains allData - an array of test objects, and appliedFilters, an array of objects like {column: x, condition: y}, to apply to allData
     this.state = {
+      appliedFilters: [],
       allData: [{
         completed: 1,
         suggested: "10/13/2019",
@@ -75,75 +75,18 @@ class App extends React.Component {
         transactionsLift: "150",
         client: "Advance Auto Parts",
         industry: "automotive"
-      }],
-      filteredData: [{
-        completed: 1,
-        suggested: "10/13/2019",
-        startDate: "10/20/2019",
-        dateCompleted: "11/3/2019",
-        priority: 3,
-        priorityScore: 20,
-        page: "global",
-        testName: "1Increase Value Proposition",
-        device: "all",
-        increaseDecrease: "increase",
-        Hypothesis: "value proposition",
-        primaryMetric: "Conversion Rate",
-        status: "win",
-        uplift: "4%",
-        revenueLift: "$15000",
-        transactionsLift: "150",
-        client: "Advance Auto Parts",
-        industry: "automotive"
-      },
-      {
-        completed: 1,
-        suggested: "10/14/2019",
-        startDate: "10/20/2019",
-        dateCompleted: "11/3/2019",
-        priority: 2,
-        priorityScore: 13,
-        page: "global",
-        testName: "2Increase Value Proposition",
-        device: "all",
-        increaseDecrease: "increase",
-        Hypothesis: "value proposition",
-        primaryMetric: "Conversion Rate",
-        status: "win",
-        uplift: "4%",
-        revenueLift: "$15000",
-        transactionsLift: "150",
-        client: "Advance Auto Parts",
-        industry: "automotive"
-      }, {
-        completed: 1,
-        suggested: "10/15/2019",
-        startDate: "10/20/2019",
-        dateCompleted: "11/3/2019",
-        priority: 1,
-        priorityScore: 17,
-        page: "pdp",
-        testName: "3Increase Value Proposition",
-        device: "all",
-        increaseDecrease: "increase",
-        Hypothesis: "value proposition",
-        primaryMetric: "Conversion Rate",
-        status: "win",
-        uplift: "4%",
-        revenueLift: "$15000",
-        transactionsLift: "150",
-        client: "Advance Auto Parts",
-        industry: "automotive"
-      }],
+      }]
     };
     this.sortByColumn = this.sortByColumn.bind(this);
-    this.filterData = this.filterData.bind(this);
-    this.resetSortandFilters = this.resetSortandFilters.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
+    this.applyFilter = this.applyFilter.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.getFilteredData = this.getFilteredData.bind(this);
   }
 
   sortByColumn(columnName) {
     //TODO: add secondary click to reverse sort
-    this.setState({filteredData: this.state.filteredData.sort(
+    this.setState({allData: this.state.allData.sort(
       function (testA, testB) {
         //if strings, sort alphabetically
         if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
@@ -162,19 +105,51 @@ class App extends React.Component {
       })});
   }
 
-  filterData(columnName, condition) {
-    this.setState({filteredData: this.state.filteredData.filter(test => test[columnName] === condition)});
+  resetFilters(){
+    this.setState({appliedFilters: []});
   }
 
-  resetSortandFilters(){
-    this.setState({filteredData: this.state.allData});
+  applyFilter(data, columnName, condition){
+    console.log(`applying filter of ${condition} on ${columnName} to data ${data}`);
+    return data.filter(test => test[columnName] === condition);
+  }
+
+  addFilter(filter){
+    //this looks confusing because it has to check if filter is already in state.appliedFilters, then either replace it or add it
+    let previousList = this.state.appliedFilters;
+    let wasPreviousFilterFound = false;
+    let newList = previousList.map(previousFilter => {
+      if(previousFilter.column === filter.column){
+        wasPreviousFilterFound = true;
+        return filter;
+      }
+      return previousFilter;
+    })
+
+    if(wasPreviousFilterFound){
+      //the newList.filter here clears out the appliedFilter if user selected the top (default) dropdown option
+      this.setState(state => state.appliedFilters = newList.filter(newFilter => newFilter.condition !== "-"));
+      return;
+    }
+    //don't add filter if it's set to top default dropdown option
+    if(filter.condition !== "-"){
+      this.setState(state => state.appliedFilters.push(filter));
+      return
+    }
+  }
+
+  getFilteredData(){
+    if (this.state.appliedFilters.length){
+      return this.state.appliedFilters.reduce((a, b) => this.applyFilter(a, b.column, b.condition), this.state.allData);
+    }
+    return this.state.allData;
   }
 
   render() {
     return (
       <StyledApp className="App">
-        <Filters data={this.state.filteredData} filterFunction={this.filterData} resetSortandFiltersFunction={this.resetSortandFilters} />
-        <DataTable data={this.state.filteredData} onColumnClick={this.sortByColumn} />
+        <Filters data={this.state.allData /*this maybe should be allData?*/} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} />
+        <DataTable data={this.getFilteredData()} onColumnClick={this.sortByColumn} />
       </StyledApp>
     );
   }
