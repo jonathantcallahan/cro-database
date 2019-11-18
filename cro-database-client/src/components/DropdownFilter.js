@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledDropdownFilter = styled.div`
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 5px 12px -2px rgba(0, 0, 0, 0.18), 0 3px 3px -2px rgba(0, 0, 0, 0.24);
+    border-bottom-width: 3px;
+    border-bottom-color: #bbb;
 `
 const filterPadding = "20px";
 

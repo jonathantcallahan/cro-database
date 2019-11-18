@@ -16,12 +16,13 @@ const StyledSearchTitle = styled.span`
 `
 
 const StyledSearch = styled.div`
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 5px 12px -2px rgba(0, 0, 0, 0.18), 0 3px 3px -2px rgba(0, 0, 0, 0.24);
+    border-bottom-width: 3px;
+    border-bottom-color: #bbb;
 `
 
 const StyledSearchInput = styled.input`
@@ -30,6 +31,11 @@ const StyledSearchInput = styled.input`
     font-size: 16px;
     font-family: Lato;
     padding: 6px;
+    &::placeholder{
+        color: #aaa;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
 `
 
 export default class Search extends React.Component {
@@ -37,7 +43,7 @@ export default class Search extends React.Component {
         return (
             <StyledSearch>
                 <StyledSearchTitle><span role="img" aria-label="search">🔍</span> Search</StyledSearchTitle>
-                <StyledSearchInput onChange={e => this.props.onChange(e.target.value)} />
+                <StyledSearchInput onChange={e => this.props.onChange(e.target.value)} placeholder="Search..."/>
             </StyledSearch>
             )
     }
