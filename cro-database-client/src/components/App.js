@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import DataTable from './DataTable';
+import DataView from './DataView';
 import Filters from './Filters';
 
 import data from '../wiifmData';
@@ -49,30 +49,30 @@ class App extends React.Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
-  sortByColumn(columnName) {
-    //column sort not working due to case conflict
-    console.log(`sorting by column ${columnName}`);
-    //TODO: add secondary click to reverse sort
-    //TODO: handle sorting by dates
+  sortByColumn(columnName, direction) {
+    console.log(`sorting by column ${columnName} in direction ${direction}`);
+    //TODO: handle sorting by dates, percents, dollar amounts
     columnName = columnName.toLowerCase();
-    this.setState({
-      allData: this.state.allData.sort(
-        function (testA, testB) {
-          //if strings, sort alphabetically
-          if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
-            var textA = testA[columnName].toUpperCase();
-            var textB = testB[columnName].toUpperCase();
-            if (textA < textB) {
-              return -1;
-            }
-            if (textA > textB) {
-              return 1;
-            }
-            return 0;
+    let sortedData = this.state.allData.sort(
+      function (testA, testB) {
+        //if strings, sort alphabetically
+        if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
+          var textA = testA[columnName].toUpperCase();
+          var textB = testB[columnName].toUpperCase();
+          if (textA < textB) {
+            return -1;
           }
-          //else sort numerically
-          return testA[columnName] - testB[columnName]
-        })
+          if (textA > textB) {
+            return 1;
+          }
+          return 0;
+        }
+        //else sort numerically
+        return testA[columnName] - testB[columnName]
+      })
+    sortedData = direction === "up" ? sortedData : sortedData.reverse();
+    this.setState({
+      allData: sortedData
     });
   }
 
@@ -139,7 +139,7 @@ class App extends React.Component {
     return (
       <StyledApp className="App">
         <Filters data={this.state.allData} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} searchFunction={this.updateSearch} />
-        <DataTable data={this.getFilteredData()} onColumnClick={this.sortByColumn} searchString={this.state.searchString} />
+        <DataView data={this.getFilteredData()} onColumnClick={this.sortByColumn} searchString={this.state.searchString} />
       </StyledApp>
     );
   }

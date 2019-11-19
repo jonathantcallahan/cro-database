@@ -4,7 +4,7 @@ import styled from 'styled-components';
 //allows table to scroll
 const StyledTableWrapper = styled.div`
   overflow: auto;
-  height: 100vh;
+  width: 80vw;
 `
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -51,20 +51,32 @@ const StyledSearchMatch = styled.span`
   color: black;
 `
 export default class DataTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortDirections: {}
+    };
+  }
 
   render() {
     if (this.props.data.length === 0) {
       return <StyledNoData><span>no data <span role="img" aria-label="sadface">😥</span></span></StyledNoData>
     }
 
-    let columns = Object.keys(this.props.data[0]).map((field, key) => <StyledTh key={key} onClick={e => this.props.onColumnClick(e.target.innerText)}>{field}</StyledTh>);
+    let columns = Object.keys(this.props.data[0]).map((field, key) => <StyledTh key={key} onClick={e => {
+      let columnName = e.target.innerText.toLowerCase();
+      this.setState(state => state.sortDirections[columnName] = this.state.sortDirections[columnName] === "down" ? "up" : "down");
+      this.props.onColumnClick(columnName, this.state.sortDirections[columnName] ? this.state.sortDirections[columnName] : "up")
+    }
+    }>{field}</StyledTh>);
+
     let searchText = this.props.searchString;
     let trs = this.props.data.map(function (record, key) {
       var tds = Object.keys(record).map((field, key) => {
         //all this stuff handles highlighting the search text
         let text = record[field].toString();
         let index = text.toString().toLowerCase().indexOf(searchText);
-        if (index !== -1){
+        if (index !== -1) {
           return <StyledTd key={key}>{text.substring(0, index)}<StyledSearchMatch>{text.substr(index, searchText.length)}</StyledSearchMatch>{text.substring(index + searchText.length)}</StyledTd>
         }
         return <StyledTd key={key}>{record[field]}</StyledTd>

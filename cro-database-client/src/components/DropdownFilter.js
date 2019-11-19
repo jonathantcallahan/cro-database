@@ -48,7 +48,8 @@ export default class DropdownFilter extends React.Component {
         let mapColumnsToFilterTitles = {
             page: "Page Type",
             client: "Client",
-            industry: "Industry"
+            industry: "Industry",
+            status: "Status"
         }
         
         return (
