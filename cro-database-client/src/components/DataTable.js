@@ -6,7 +6,6 @@ const StyledTableWrapper = styled.div`
   overflow: auto;
   height: 100vh;
 `
-
 const StyledTable = styled.table`
   border-collapse: collapse;
   width: 100%;
@@ -25,7 +24,6 @@ const StyledTr = styled.tr`
     border: none;
   }
 `
-
 const StyledTh = styled.th`
   padding: 10px 20px;
   cursor: s-resize;
@@ -36,11 +34,9 @@ const StyledTh = styled.th`
   color: #656565;
   letter-spacing: .5px;
 `
-
 const StyledThead = styled.thead`
   background: #eee;
 `
-
 const StyledNoData = styled.div`
   display: flex;
   justify-content: space-around;
@@ -50,12 +46,10 @@ const StyledNoData = styled.div`
   color: #666;
   width: 100%;
 `
-
 const StyledSearchMatch = styled.span`
   background: #ffeb00;
   color: black;
 `
-
 export default class DataTable extends React.Component {
 
   render() {

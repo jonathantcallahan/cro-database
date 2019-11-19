@@ -39,45 +39,6 @@ class App extends React.Component {
       //   client: "Advance Auto Parts",
       //   industry: "automotive"
       // },
-      // {
-      //   completed: 1,
-      //   suggested: "10/14/2019",
-      //   startDate: "10/20/2019",
-      //   dateCompleted: "11/3/2019",
-      //   priority: 2,
-      //   priorityScore: 13,
-      //   page: "global",
-      //   testName: "2Increase Value Proposition",
-      //   device: "all",
-      //   increaseDecrease: "increase",
-      //   Hypothesis: "value proposition",
-      //   primaryMetric: "Conversion Rate",
-      //   status: "win",
-      //   uplift: "4%",
-      //   revenueLift: "$15000",
-      //   transactionsLift: "150",
-      //   client: "Advance Auto Parts",
-      //   industry: "automotive"
-      // }, {
-      //   completed: 1,
-      //   suggested: "10/15/2019",
-      //   startDate: "10/20/2019",
-      //   dateCompleted: "11/3/2019",
-      //   priority: 1,
-      //   priorityScore: 17,
-      //   page: "pdp",
-      //   testName: "3Increase Value Proposition",
-      //   device: "all",
-      //   increaseDecrease: "increase",
-      //   Hypothesis: "value proposition",
-      //   primaryMetric: "Conversion Rate",
-      //   status: "win",
-      //   uplift: "4%",
-      //   revenueLift: "$15000",
-      //   transactionsLift: "150",
-      //   client: "Advance Auto Parts",
-      //   industry: "automotive"
-      // }],
       searchString: ''
     };
     this.sortByColumn = this.sortByColumn.bind(this);
@@ -92,82 +53,86 @@ class App extends React.Component {
     //column sort not working due to case conflict
     console.log(`sorting by column ${columnName}`);
     //TODO: add secondary click to reverse sort
-    this.setState({allData: this.state.allData.sort(
-      function (testA, testB) {
-        //if strings, sort alphabetically
-        if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
-          var textA = testA[columnName].toUpperCase();
-          var textB = testB[columnName].toUpperCase();
-          if (textA < textB) {
-            return -1;
+    //TODO: handle sorting by dates
+    columnName = columnName.toLowerCase();
+    this.setState({
+      allData: this.state.allData.sort(
+        function (testA, testB) {
+          //if strings, sort alphabetically
+          if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
+            var textA = testA[columnName].toUpperCase();
+            var textB = testB[columnName].toUpperCase();
+            if (textA < textB) {
+              return -1;
+            }
+            if (textA > textB) {
+              return 1;
+            }
+            return 0;
           }
-          if (textA > textB) {
-            return 1;
-          }
-          return 0;
-        }
-        //else sort numerically
-        return testA[columnName] - testB[columnName]
-      })});
+          //else sort numerically
+          return testA[columnName] - testB[columnName]
+        })
+    });
   }
 
-  resetFilters(){
-    this.setState({appliedFilters: [], searchString: ''});
+  resetFilters() {
+    this.setState({ appliedFilters: [], searchString: '' });
     let selects = document.getElementsByTagName('select');
-    for (let select of selects){
+    for (let select of selects) {
       select.selectedIndex = 0;
     }
     let inputs = document.getElementsByTagName('input');
-    for (let input of inputs){
+    for (let input of inputs) {
       input.value = '';
     }
   }
 
-  applyFilter(data, columnName, condition){
+  applyFilter(data, columnName, condition) {
     console.log(`applying filter of ${condition} on ${columnName} to data ${data}`);
     return data.filter(test => test[columnName] === condition);
   }
 
-  addFilter(filter){
+  addFilter(filter) {
     //this looks confusing because it has to check if filter is already in state.appliedFilters, then either replace it or add it
     let previousList = this.state.appliedFilters;
     let wasPreviousFilterFound = false;
     let newList = previousList.map(previousFilter => {
-      if(previousFilter.column === filter.column){
+      if (previousFilter.column === filter.column) {
         wasPreviousFilterFound = true;
         return filter;
       }
       return previousFilter;
     })
 
-    if(wasPreviousFilterFound){
+    if (wasPreviousFilterFound) {
       //the newList.filter here clears out the appliedFilter if user selected the top (default) dropdown option
       this.setState(state => state.appliedFilters = newList.filter(newFilter => newFilter.condition !== "-"));
       return;
     }
     //don't add filter if it's set to top default dropdown option
-    if(filter.condition !== "-"){
+    if (filter.condition !== "-") {
       this.setState(state => state.appliedFilters.push(filter));
       return
     }
   }
 
-  getFilteredData(){
+  getFilteredData() {
     let searchedData = this.state.allData.filter(test => {
-      for (let column in test){
-        if(test[column].toString().toLowerCase().includes(this.state.searchString)){
+      for (let column in test) {
+        if (test[column].toString().toLowerCase().includes(this.state.searchString)) {
           return true;
         }
       }
       return false;
     })
-    
+
     //applies all filters in appliedFilters array to the searchedData (already filtered by search box)
     return this.state.appliedFilters.reduce((a, b) => this.applyFilter(a, b.column, b.condition), searchedData);
   }
 
-  updateSearch(string){
-    this.setState({searchString: string.toLowerCase()});
+  updateSearch(string) {
+    this.setState({ searchString: string.toLowerCase() });
   }
 
   render() {

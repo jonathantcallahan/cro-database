@@ -1051,4 +1051,12 @@ let data = [
   }
 ];
 
-export default data;
+const columnOrder = ["Test Name", "Status", "Uplift", "Proj. Monthly Rev Lift", "Proj. Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
+
+const formattedData = data.map(test => {
+  let formattedTest = {};
+  columnOrder.forEach(column => formattedTest[column.toLowerCase()] = test[column]);
+  return formattedTest;
+});
+
+export default formattedData;

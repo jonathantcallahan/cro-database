@@ -39,17 +39,17 @@ const StyledFiltersTitle = styled.span`
 
 export default class Filters extends React.Component {
     render() {
-        let pageTypeOptions = [...new Set(this.props.data.map(test => test.Page))]; //array of unique page types. The "Set" thing de-dupes them. Will need to modify "test.page" when we get actual csv column names
-        let clientOptions = [...new Set(this.props.data.map(test => test.Client))];
-        let industryOptions = [...new Set(this.props.data.map(test => test.Industry))];
+        let pageTypeOptions = [...new Set(this.props.data.map(test => test.page))]; //array of unique page types. The "Set" thing de-dupes them. Will need to modify "test.page" when we get actual csv column names
+        let clientOptions = [...new Set(this.props.data.map(test => test.client))];
+        let industryOptions = [...new Set(this.props.data.map(test => test.industry))];
         //to add more DropdownFilters, add array of options as above, filterColumn should be the column name from data source, then add an entry to mapColumnsToFilterTitles in DropdownFilter component for more human-readable title
         return (
             <StyledFilters>
                 <StyledFiltersTitle><span role="img" aria-label="filters">🧭</span> Filters</StyledFiltersTitle>
                 <StyledResetButton onClick={this.props.resetFiltersFunction}>Reset</StyledResetButton>
-                <DropdownFilter filterColumn="Page" options={pageTypeOptions} onChange={this.props.filterFunction} />
-                <DropdownFilter filterColumn="Client" options={clientOptions} onChange={this.props.filterFunction} />
-                <DropdownFilter filterColumn="Industry" options={industryOptions} onChange={this.props.filterFunction} />
+                <DropdownFilter filterColumn="page" options={pageTypeOptions} onChange={this.props.filterFunction} />
+                <DropdownFilter filterColumn="client" options={clientOptions} onChange={this.props.filterFunction} />
+                <DropdownFilter filterColumn="industry" options={industryOptions} onChange={this.props.filterFunction} />
                 <Search onChange={this.props.searchFunction} />
             </StyledFilters>
         );
