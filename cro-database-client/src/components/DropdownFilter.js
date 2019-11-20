@@ -49,7 +49,8 @@ export default class DropdownFilter extends React.Component {
             page: "Page Type",
             client: "Client",
             industry: "Industry",
-            status: "Status"
+            status: "Status",
+            hypothesis: "Hypothesis"
         }
         
         return (

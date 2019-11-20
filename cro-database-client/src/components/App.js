@@ -51,7 +51,7 @@ class App extends React.Component {
 
   sortByColumn(columnName, direction) {
     console.log(`sorting by column ${columnName} in direction ${direction}`);
-    //TODO: handle sorting by dates, percents, dollar amounts
+    //TODO: handle sorting by dates, percents, dollar amounts. once updated, copy updates into wiifmData.js
     columnName = columnName.toLowerCase();
     let sortedData = this.state.allData.sort(
       function (testA, testB) {
