@@ -4,7 +4,8 @@ import styled from 'styled-components';
 //allows table to scroll
 const StyledTableWrapper = styled.div`
   overflow: auto;
-  width: 80vw;
+  width: 100%;
+  border-top: 1px solid #ccc;
 `
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -72,7 +73,7 @@ export default class DataTable extends React.Component {
 
     let searchText = this.props.searchString;
     let trs = this.props.data.map(function (record, key) {
-      var tds = Object.keys(record).map((field, key) => {
+      let tds = Object.keys(record).map((field, key) => {
         //all this stuff handles highlighting the search text
         let text = record[field].toString();
         let index = text.toString().toLowerCase().indexOf(searchText);

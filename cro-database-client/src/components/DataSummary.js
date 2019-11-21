@@ -7,8 +7,7 @@ const StyledDataSummary = styled.div`
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    padding: 30px 80px;
-    border-bottom: 1px solid #ccc;
+    padding: 30px 80px 10px 80px;
 `
 const StyledSummaryDiv = styled.div`
     display: flex;

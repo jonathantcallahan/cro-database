@@ -5,8 +5,8 @@ import DropdownFilter from './DropdownFilter';
 import Search from './Search';
 
 const StyledFilters = styled.div`
-    width: 20vw;
-    min-width: 20vw;
+    width: 17vw;
+    min-width: 17vw;
     border-right: 1px solid #ccc;
     padding: 20px 0;
     display: flex;

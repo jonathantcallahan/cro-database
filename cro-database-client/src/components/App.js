@@ -139,7 +139,13 @@ class App extends React.Component {
     return (
       <StyledApp className="App">
         <Filters data={this.state.allData} filterFunction={this.addFilter} resetFiltersFunction={this.resetFilters} searchFunction={this.updateSearch} />
-        <DataView data={this.getFilteredData()} onColumnClick={this.sortByColumn} searchString={this.state.searchString} />
+        <DataView
+          data={this.getFilteredData()}
+          onColumnClick={this.sortByColumn}
+          searchString={this.state.searchString}
+          allPageTypes={[...new Set(this.state.allData.map(test => test.page))].filter(option => option !== "")}
+          allTestStatuses={[...new Set(this.state.allData.map(test => test.status))].filter(option => option !== "")}
+        />
       </StyledApp>
     );
   }

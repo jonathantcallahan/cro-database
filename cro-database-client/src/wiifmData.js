@@ -2405,7 +2405,17 @@ const columnOrder = ["Test Name", "Status", "Uplift", "Proj. Monthly Rev Lift", 
 
 const formattedData = data.map(test => {
   let formattedTest = {};
-  columnOrder.forEach(column => formattedTest[column.toLowerCase()] = test[column]);
+  columnOrder.forEach(column => {
+    if (column === "Proj. Monthly Rev Lift"){
+      formattedTest["Rev Lift"] = test[column];
+      return;
+    }
+    if (column === "Proj. Monthly Lift in Transactions"){
+      formattedTest["Transaction Lift"] = test[column];
+      return;
+    }
+    formattedTest[column.toLowerCase()] = test[column];
+  });
   return formattedTest;
 });
 
