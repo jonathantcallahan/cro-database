@@ -4,13 +4,9 @@ import styled from 'styled-components';
 const searchPadding = "20px";
 
 const StyledSearch = styled.div`
-    border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    border-bottom-width: 3px;
-    border-bottom-color: #bbb;
+    border-bottom: 1px solid #bbb;
     &:hover{
         border-bottom-color: #888;
     }
@@ -19,14 +15,12 @@ const StyledSearch = styled.div`
 
 const StyledSearchTitle = styled.span`
     font-weight: bold;
-    background: #ddd;
-    padding: ${searchPadding} ${searchPadding} ${searchPadding} ${searchPadding};
+    padding: ${searchPadding} ${searchPadding} 0 ${searchPadding};
     font-weight: 600;
     font-size: 14px;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: #444;
-    border-radius: 10px 10px 0px 0px;
 `
 
 const StyledSearchInput = styled.input`

@@ -8,7 +8,7 @@ const StyledFilters = styled.div`
     width: 20vw;
     min-width: 20vw;
     border-right: 1px solid #ccc;
-    padding: 20px 30px;
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
     max-height: 100vh;
@@ -19,7 +19,7 @@ const StyledResetButton = styled.button`
     background: transparent;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 20px 0px;
+    margin: 20px 20px;
     padding: 12px;
     border-bottom-width: 3px;
     border-bottom-color: #bbb;
@@ -37,6 +37,7 @@ const StyledResetButton = styled.button`
 const StyledFiltersTitle = styled.span`
     font-size: 24px;
     color: #444;
+    margin: 0 20px;
 `
 
 export default class Filters extends React.Component {
