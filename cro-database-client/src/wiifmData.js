@@ -2407,11 +2407,11 @@ const formattedData = data.map(test => {
   let formattedTest = {};
   columnOrder.forEach(column => {
     if (column === "Proj. Monthly Rev Lift"){
-      formattedTest["Rev Lift"] = test[column];
+      formattedTest["rev lift"] = test[column];
       return;
     }
     if (column === "Proj. Monthly Lift in Transactions"){
-      formattedTest["Transaction Lift"] = test[column];
+      formattedTest["transaction lift"] = test[column];
       return;
     }
     formattedTest[column.toLowerCase()] = test[column];

@@ -40,11 +40,11 @@ export default class DropdownFilter extends React.Component {
         options.unshift(<option key="default">-</option>);
         //more human-readable titles for filters. May want to pull this out and use for column names at some point too
         let mapColumnsToFilterTitles = {
-            page: "Page Type",
-            client: "Client",
-            industry: "Industry",
-            status: "Status",
-            hypothesis: "Hypothesis"
+            page: "📄 Page Type",
+            client: "💼 Client",
+            industry: "🏭 Industry",
+            status: "🚦 Status",
+            hypothesis: "❔ Hypothesis"
         }
         
         return (
