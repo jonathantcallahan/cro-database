@@ -1,3 +1,5 @@
+import accounting from 'accounting';
+
 let data = [
   {
     "Completed": 1,
@@ -2420,13 +2422,44 @@ const formattedData = data.map(test => {
 });
 
 function sortByColumn(data, columnName, direction) {
-  //this is copied from App.js, used to sort data by date completed on initial import
-  //TODO: handle sorting by dates, percents, dollar amounts
+  console.log(`sorting by column ${columnName} in direction ${direction}`);
   columnName = columnName.toLowerCase();
   let sortedData = data.sort(
     function (testA, testB) {
-      //if strings, sort alphabetically
-      if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
+      if(testA[columnName] == ''){
+        return -1;
+      }
+      if(testB[columnName] == ''){
+        return 1;
+      }
+      //numerical sorting
+      if(columnName === "rev lift" || columnName === "uplift" || columnName === "transaction lift"){
+        let numA = accounting.unformat(testA[columnName]);
+        let numB = accounting.unformat(testB[columnName]);
+        return numA - numB;
+      }
+      //date sorting
+      else if(columnName === "suggested" || columnName === "start date" || columnName === "date completed"){
+        let arrA = testA[columnName].split('/');
+        let arrB = testB[columnName].split('/');
+        let yearA = arrA[2];
+        let monthA = arrA[0];
+        let dayA = arrA[1];
+        let yearB = arrB[2];
+        let monthB = arrB[0];
+        let dayB = arrB[1];
+        if (yearA !== yearB){
+          return yearA - yearB;
+        }
+        else if (monthA !== monthB){
+          return monthA - monthB;
+        }
+        else {
+          return dayA - dayB;
+        }
+      }
+      //else, sort alphabetically
+      else if ((typeof testA[columnName] === "string") && (typeof testB[columnName] === "string")) {
         var textA = testA[columnName].toUpperCase();
         var textB = testB[columnName].toUpperCase();
         if (textA < textB) {
@@ -2437,11 +2470,9 @@ function sortByColumn(data, columnName, direction) {
         }
         return 0;
       }
-      //else sort numerically
-      return testA[columnName] - testB[columnName]
     })
   sortedData = direction === "up" ? sortedData : sortedData.reverse();
   return sortedData;
 }
 
-export default sortByColumn(formattedData, "Date Completed", "up");
+export default sortByColumn(formattedData, "Date Completed", "down");
