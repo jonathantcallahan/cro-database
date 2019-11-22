@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Database from './Database';
+import Navigation from './Navigation';
 
 import data from '../wiifmData';
 import '../reset.css';
@@ -16,12 +17,18 @@ class App extends React.Component {
         this.state = {
             navigation: 'database'
         };
+        this.updateNavigation = this.updateNavigation.bind(this);
+    }
+
+    updateNavigation(option){
+        this.setState({navigation: option});
     }
 
     render() {
-        let windowContents = this.state.navigation === 'database' ? <Database data={data} /> : 'tba';
+        let windowContents = this.state.navigation === 'database' ? <Database data={data} /> : 'Coming Soon';
         return (
             <StyledApp>
+                <Navigation activeButton={this.state.navigation} onClick={this.updateNavigation} />
                 {windowContents}
             </StyledApp>
         )

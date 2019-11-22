@@ -2426,10 +2426,10 @@ function sortByColumn(data, columnName, direction) {
   columnName = columnName.toLowerCase();
   let sortedData = data.sort(
     function (testA, testB) {
-      if(testA[columnName] == ''){
+      if(testA[columnName] === ''){
         return -1;
       }
-      if(testB[columnName] == ''){
+      if(testB[columnName] === ''){
         return 1;
       }
       //numerical sorting
@@ -2470,6 +2470,7 @@ function sortByColumn(data, columnName, direction) {
         }
         return 0;
       }
+      else return 0
     })
   sortedData = direction === "up" ? sortedData : sortedData.reverse();
   return sortedData;

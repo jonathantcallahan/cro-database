@@ -7,7 +7,7 @@ import MoreInfo from'./MoreInfo';
 
 const StyledDataView = styled.div`
     width: 83vw;
-    height: 100vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
