@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledNavigation = styled.nav`
-    height: 5vh; /* this plus height of DataView needs to be 100vh */
+    height: 5vh; /* this plus height of DataView and Insights needs to be 100vh */
     border-bottom: 1px solid #6d6d6d;
 `
 const StyledNavButton = styled.button`

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Database from './Database';
+import Insights from './Insights';
 import Navigation from './Navigation';
 
 import data from '../wiifmData';
@@ -15,7 +16,7 @@ class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            navigation: 'database'
+            navigation: 'insights'
         };
         this.updateNavigation = this.updateNavigation.bind(this);
     }
@@ -25,7 +26,10 @@ class App extends React.Component {
     }
 
     render() {
-        let windowContents = this.state.navigation === 'database' ? <Database data={data} /> : 'Coming Soon';
+        let windowContents = this.state.navigation === 'database' ? 
+            <Database data={data} /> : 
+            <Insights data={data} />;
+            
         return (
             <StyledApp>
                 <Navigation activeButton={this.state.navigation} onClick={this.updateNavigation} />
