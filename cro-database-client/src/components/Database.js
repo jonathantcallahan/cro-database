@@ -96,7 +96,7 @@ class Database extends React.Component {
   }
 
   applyFilter(data, columnName, condition) {
-    console.log(`applying filter of ${condition} on ${columnName} to data ${data}`);
+    console.log(`applying filter of ${condition} on ${columnName}`);
     return data.filter(test => test[columnName] === condition);
   }
 

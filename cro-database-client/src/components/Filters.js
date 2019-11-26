@@ -43,11 +43,11 @@ const StyledFiltersTitle = styled.span`
 export default class Filters extends React.Component {
     render() {
         //array of unique page types. The "Set" thing de-dupes them.
-        let pageTypeOptions = [...new Set(this.props.data.map(test => test.page))].filter(option => option !== ""); 
-        let clientOptions = [...new Set(this.props.data.map(test => test.client))].filter(option => option !== "");
-        let industryOptions = [...new Set(this.props.data.map(test => test.industry))].filter(option => option !== "");
-        let statusOptions = [...new Set(this.props.data.map(test => test.status))].filter(option => option !== "");
-        let hypothesisOptions = [...new Set(this.props.data.map(test => test.hypothesis))].filter(option => option !== "");
+        let pageTypeOptions = [...new Set(this.props.data.map(test => test.page))].filter(option => option !== "").sort(); 
+        let clientOptions = [...new Set(this.props.data.map(test => test.client))].filter(option => option !== "").sort();
+        let industryOptions = [...new Set(this.props.data.map(test => test.industry))].filter(option => option !== "").sort();
+        let statusOptions = [...new Set(this.props.data.map(test => test.status))].filter(option => option !== "").sort();
+        let hypothesisOptions = [...new Set(this.props.data.map(test => test.hypothesis))].filter(option => option !== "").sort();
         //to add more DropdownFilters, add array of options as above, filterColumn should be the column name from data source, then add an entry to mapColumnsToFilterTitles in DropdownFilter component for more human-readable title
         return (
             <StyledFilters>
