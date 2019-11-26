@@ -59,10 +59,12 @@ function getHighWinrates(data){
 function getInsightScore(observation){
     //insight score ranges from 0 to 100
     //function of completed tests and winrate
+    //it multiplies winrate by (1-1/(1+2^completedTests/10)). this function goes quickly from near zero <5 tests to near 1 at >10 tests
+    //so above 10 tests, insight score is almost equal to winrate
     if (observation.completedTests === 0){
         return 0;
     }
-    return Math.random(0,1);
+    return observation.winRate * (1 - 1/(1 + Math.pow(2, observation.completedTests)/10)) * 100;
 }
 
 export default class Insights extends React.Component {
