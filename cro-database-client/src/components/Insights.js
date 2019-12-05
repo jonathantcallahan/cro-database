@@ -6,6 +6,7 @@ import Insight from './Insight';
 const StyledInsights = styled.div`
     background: #efefef;
     min-height: 95vh;
+    padding: 40px 60px;
 `
 
 function getInsights(data){
@@ -79,7 +80,7 @@ export default class Insights extends React.Component {
 
     render(){
         console.log(getInsights(this.state.allData).sort((a,b) => b.insightScore - a.insightScore));
-        const insights = getInsights(this.state.allData).sort((a,b) => b.insightScore - a.insightScore).map((insight, key) => <Insight insight={insight} key={key} />);
+        const insights = getInsights(this.state.allData).sort((a,b) => b.insightScore - a.insightScore).map((insight, key) => <Insight insight={insight} key={key} handleFilteredDatabaseLoad={this.props.handleFilteredDatabaseLoad} />);
         return <StyledInsights>{insights}</StyledInsights>
     }
 }

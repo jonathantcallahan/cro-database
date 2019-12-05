@@ -14,7 +14,7 @@ class Database extends React.Component {
     super(props);
     //state contains allData - an array of test objects, and appliedFilters, an array of objects like {column: x, condition: y}, to apply to allData
     this.state = {
-      appliedFilters: [],
+      appliedFilters: this.props.filters || [],
       allData: this.props.data,
       searchString: ''
     };

@@ -16,19 +16,25 @@ class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            navigation: 'insights'
+            navigation: 'insights',
+            initialFilters: []
         };
         this.updateNavigation = this.updateNavigation.bind(this);
+        this.loadDatabaseWithFilters = this.loadDatabaseWithFilters.bind(this);
     }
 
     updateNavigation(option){
         this.setState({navigation: option});
     }
 
+    loadDatabaseWithFilters(filters){
+        this.setState({navigation: 'database', initialFilters: filters});
+    }
+
     render() {
         let windowContents = this.state.navigation === 'database' ? 
-            <Database data={data} /> : 
-            <Insights data={data} />;
+            <Database data={data} filters={this.state.initialFilters} /> : 
+            <Insights data={data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} />;
             
         return (
             <StyledApp>
