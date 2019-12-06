@@ -23,8 +23,7 @@ function getHighWinrates(data){
         let winningTests = testsWithThatHypothesis.filter(test => test.status === "win").length;
         let completedTests = testsWithThatHypothesis.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
         let winRate = winningTests / completedTests;
-        let observation = {type: "hypothesis", hypothesis, winRate, completedTests};
-        return Object.assign(observation, {insightScore: getInsightScore(observation)});
+        return {type: "hypothesis", hypothesis, winRate, completedTests, insightScore: getInsightScore(winRate, completedTests)};
     })
 
     //by page type
@@ -36,8 +35,7 @@ function getHighWinrates(data){
         let winningTests = testsWithThatPageType.filter(test => test.status === "win").length;
         let completedTests = testsWithThatPageType.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
         let winRate = winningTests / completedTests;
-        let observation = {type: "pageType", pageType, winRate, completedTests};
-        return Object.assign(observation, {insightScore: getInsightScore(observation)});
+        return {type: "pageType", pageType, winRate, completedTests, insightScore: getInsightScore(winRate, completedTests)}
     })
 
     //by hypothesis x page type
@@ -53,21 +51,21 @@ function getHighWinrates(data){
             hypothesisXPageTypeWinRates.push({type: "hypothesisXPageType", pageType, hypothesis, winRate, completedTests});
         })
     })
-    hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, {insightScore: getInsightScore(observation)}));
+    hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, {insightScore: getInsightScore(observation.winRate, observation.completedTests)}));
     
     let result = [];
-    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0);
+    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0).map(observation => Object.assign(observation, {insight: "highWinrate"}));
 }
 
-function getInsightScore(observation){
+function getInsightScore(winRate, completedTests){
     //insight score ranges from 0 to 100
     //function of completed tests and winrate
     //it multiplies winrate by (1-1/(1+2^completedTests/10)). this function goes quickly from near zero <5 tests to near 1 at >10 tests
     //so above 10 tests, insight score is almost equal to winrate
-    if (observation.completedTests === 0){
+    if (completedTests === 0){
         return 0;
     }
-    return observation.winRate * (1 - 1/(1 + Math.pow(2, observation.completedTests)/10)) * 100;
+    return winRate * (1 - 1/(1 + Math.pow(2, completedTests)/10)) * 100;
 }
 
 export default class Insights extends React.Component {
