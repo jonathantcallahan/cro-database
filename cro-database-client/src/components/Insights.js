@@ -59,7 +59,7 @@ function getHighWinrates(data) {
 
 function getOpportunities(data) {
     //by client x page type
-    let allPageTypes = [...new Set(data.map(test => test.page))].filter(option => option !== "").filter(option => option !== "other");
+    let allPageTypes = ['pdp', 'cart', 'homepage', 'global', 'plp', 'search', 'checkout', 'category'];
     let allClients = [...new Set(data.map(test => test.client))].filter(option => option !== "");
     let result = [];
     allClients.forEach(function (client) {

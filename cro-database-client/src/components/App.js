@@ -17,6 +17,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             navigation: 'insights',
+            //initialFilters are used to load the database with filters applied from the insights page
             initialFilters: []
         };
         this.updateNavigation = this.updateNavigation.bind(this);
@@ -38,7 +39,7 @@ class App extends React.Component {
             
         return (
             <StyledApp>
-                <Navigation activeButton={this.state.navigation} onClick={this.updateNavigation} />
+                <Navigation activeButton={this.state.navigation} onClick={this.updateNavigation} updateGlobalClientSelection={this.updateGlobalClientSelection} />
                 {windowContents}
             </StyledApp>
         )
