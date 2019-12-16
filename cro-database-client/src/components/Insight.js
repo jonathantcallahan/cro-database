@@ -87,48 +87,33 @@ export default class Insights extends React.Component {
         )
     }
 
+    buildOpportunityInsight(insight){
+        return(
+            <StyledInsight>
+                <StyledInsightScore>{Math.round(insight.insightScore)}</StyledInsightScore>
+                <StyledInsightDetails>
+                    <StyledInsightRecommendation>Client "{insight.client}" has had no tests on page type "{insight.pageType}".</StyledInsightRecommendation>
+                </StyledInsightDetails>
+                <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{column: 'client', condition: this.props.insight.client}])}>View Client</ StyledShowTestsButton>
+            </StyledInsight>
+        )
+    }
+
     render() {
-        let recommendation = '';
-        let button = '';
-        switch (this.props.insight.type) {
-            case 'hypothesis':
-                recommendation = `Tests with hypothesis "${this.props.insight.hypothesis}" have a high winrate.`;
-                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{column: 'hypothesis', condition: this.props.insight.hypothesis}])}>View Tests</ StyledShowTestsButton>
+        let insight = '';
+        switch (this.props.insight.insight){
+            case 'highWinrate':
+                insight = this.buildHighWinrateInsight(this.props.insight);
                 break;
-            case 'pageType':
-                recommendation = `Tests targeting page type "${this.props.insight.pageType}" have a high winrate.`;
-                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{column: 'page', condition: this.props.insight.pageType}])}>View Tests</ StyledShowTestsButton>
-                break;
-            case 'hypothesisXPageType':
-                recommendation = `Tests targeting page type "${this.props.insight.pageType}" with hypothesis "${this.props.insight.hypothesis}" have a high winrate.`;
-                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{column: 'hypothesis', condition: this.props.insight.hypothesis}, {column: 'page', condition: this.props.insight.pageType}])}>View Tests</ StyledShowTestsButton>
+            case 'opportunity':
+                insight = this.buildOpportunityInsight(this.props.insight);
                 break;
             default:
-                recommendation = 'Recommendation not found';
+                break;
         }
-        // let insight = '';
-        // switch (this.props.insight.insight){
-        //     case 'highWinrate':
-        //         insight = this.buildHighWinrateInsight(this.props.insight);
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // console.log(insight);
 
         return (
-            // {insight}
-            <StyledInsight>
-                <StyledInsightScore>{Math.round(this.props.insight.insightScore)}</StyledInsightScore>
-                <StyledInsightDetails>
-                    <StyledInsightRecommendation>{recommendation}</StyledInsightRecommendation>
-                    <StyledInsightSupportingDetails>
-                        {Math.round(this.props.insight.winRate * 100)}% winrate ·&nbsp;
-                        {this.props.insight.completedTests} tests completed
-                    </StyledInsightSupportingDetails>
-                </StyledInsightDetails>
-                {button}
-            </StyledInsight>
+            insight
         )
     }
 }
