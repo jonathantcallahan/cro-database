@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DataTable from './DataTable';
 import DataSummary from './DataSummary';
 import MoreInfo from'./MoreInfo';
+import RedesignedDataTable from'./RedesignedDataTable';
 
 const StyledDataView = styled.div`
     width: 83vw;
@@ -27,7 +28,7 @@ export default class DataView extends React.Component {
             <StyledDataView>
                 <DataSummary numberOfTests={numberOfTests} winPercent={Math.round(numberOfWins * 100 / numberOfCompletedTests)} />
                 <MoreInfo data={this.props.data} allPageTypes={this.props.allPageTypes} allTestStatuses={this.props.allTestStatuses} />
-                <DataTable data={this.props.data} onColumnClick={this.props.onColumnClick} searchString={this.props.searchString} />
+                <RedesignedDataTable data={this.props.data} onColumnClick={this.props.onColumnClick} searchString={this.props.searchString} />
             </StyledDataView>
         )
     }
