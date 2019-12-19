@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import DropdownFilter from './DropdownFilter';
 import Search from './Search';
+import './filters.css'
 
 const StyledFilters = styled.div`
     width: 17vw;
@@ -13,6 +14,14 @@ const StyledFilters = styled.div`
     flex-direction: column;
     max-height: 100vh;
     overflow-y: auto;
+    @media (max-width: 1130px){
+        position: fixed;
+        width: 280px;
+        height: 57px;
+        border: none;
+        overflow: hidden;
+        transition: height .5s;
+    }
 `
 
 const StyledResetButton = styled.button`
@@ -38,9 +47,32 @@ const StyledFiltersTitle = styled.span`
     font-size: 24px;
     color: #444;
     margin: 0 20px;
+    @media (max-width: 1130px){
+        cursor: pointer;
+        &:after{
+            content: "v";
+            position: absolute;
+            top: 20px;
+            left: 135px;
+            color: #666;
+            font-size: 20px;
+        }
+    }
+    @media(max-width: 540px){
+        font-size: 18px;
+        &:after{
+            font-size: 15px;
+            left: 104px;
+        }
+    }
 `
 
 export default class Filters extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {filtersExpanded: false};
+    }
+
     render() {
         //array of unique page types. The "Set" thing de-dupes them.
         let pageTypeOptions = [...new Set(this.props.data.map(test => test.page))].filter(option => option !== "").sort(); 
@@ -50,8 +82,8 @@ export default class Filters extends React.Component {
         let hypothesisOptions = [...new Set(this.props.data.map(test => test.hypothesis))].filter(option => option !== "").sort();
         //to add more DropdownFilters, add array of options as above, filterColumn should be the column name from data source, then add an entry to mapColumnsToFilterTitles in DropdownFilter component for more human-readable title
         return (
-            <StyledFilters>
-                <StyledFiltersTitle><span role="img" aria-label="filters">🧭</span> Filters</StyledFiltersTitle>
+            <StyledFilters className={this.state.filtersExpanded ? "filters-expanded" : ""}>
+                <StyledFiltersTitle onClick={e => this.setState(state => state.filtersExpanded = !state.filtersExpanded)}><span role="img" aria-label="filters">🧭</span> Filters</StyledFiltersTitle>
                 <StyledResetButton onClick={this.props.resetFiltersFunction}>Reset</StyledResetButton>
                 <DropdownFilter filterColumn="hypothesis" options={hypothesisOptions} onChange={this.props.filterFunction} />
                 <DropdownFilter filterColumn="page" options={pageTypeOptions} onChange={this.props.filterFunction} />

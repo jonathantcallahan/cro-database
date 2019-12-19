@@ -1,0 +1,6 @@
+.filters-expanded{
+    height: 100%;
+    border-right: 1px solid #ccc;
+    overflow: auto;
+    background: white;
+}

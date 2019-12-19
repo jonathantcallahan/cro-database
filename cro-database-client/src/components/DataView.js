@@ -12,6 +12,9 @@ const StyledDataView = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    @media (max-width: 1130px){
+        width: 100vw;
+    }
 `
 export default class DataView extends React.Component {
 

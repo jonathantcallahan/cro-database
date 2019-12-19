@@ -16,7 +16,7 @@ class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            navigation: 'insights',
+            navigation: 'database',
             //initialFilters are used to load the database with filters applied from the insights page
             initialFilters: []
         };
