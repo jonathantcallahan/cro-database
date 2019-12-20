@@ -10,7 +10,8 @@ const StyledInsights = styled.div`
 `
 
 function getInsights(data) {
-    return getHighWinrates(data).concat(getOpportunities(data));
+    console.log(getLowWinrates(data).sort((a, b) => b.insightScore - a.insightScore));
+    return getHighWinrates(data).concat(getOpportunities(data)).concat(getLowWinrates(data));
 }
 
 function getHighWinrates(data) {
@@ -18,7 +19,6 @@ function getHighWinrates(data) {
     let allHypotheses = [...new Set(data.map(test => test.hypothesis))].filter(option => option !== "");
     //for each hypothesis
     let hypothesisWinRates = allHypotheses.map(hypothesis => {
-        //get the data related to that hypothesis
         let testsWithThatHypothesis = data.filter(test => test.hypothesis === hypothesis);
         let winningTests = testsWithThatHypothesis.filter(test => test.status === "win").length;
         let completedTests = testsWithThatHypothesis.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
@@ -30,7 +30,6 @@ function getHighWinrates(data) {
     let allPageTypes = [...new Set(data.map(test => test.page))].filter(option => option !== "");
     //for each page type
     let pageTypeWinRates = allPageTypes.map(pageType => {
-        //get the data related to that page type
         let testsWithThatPageType = data.filter(test => test.page === pageType);
         let winningTests = testsWithThatPageType.filter(test => test.status === "win").length;
         let completedTests = testsWithThatPageType.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
@@ -54,7 +53,50 @@ function getHighWinrates(data) {
     hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, { insightScore: getInsightScore(observation.winRate, observation.completedTests) }));
 
     let result = [];
-    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0).map(observation => Object.assign(observation, { insight: "highWinrate" }));
+    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0 && observation.winRate > .5).map(observation => Object.assign(observation, { insight: "highWinrate" }));
+}
+
+function getLowWinrates(data) {
+    //NOTE: insight scores in this function are divided by 2 because they seem less useful
+    //by hypothesis
+    let allHypotheses = [...new Set(data.map(test => test.hypothesis))].filter(option => option !== "");
+    //for each hypothesis
+    let hypothesisWinRates = allHypotheses.map(hypothesis => {
+        let testsWithThatHypothesis = data.filter(test => test.hypothesis === hypothesis);
+        let winningTests = testsWithThatHypothesis.filter(test => test.status === "win").length;
+        let completedTests = testsWithThatHypothesis.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
+        let winRate = winningTests / completedTests;
+        return { type: "hypothesis", hypothesis, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) / 2 };
+    })
+
+    //by page type
+    let allPageTypes = [...new Set(data.map(test => test.page))].filter(option => option !== "");
+    //for each page type
+    let pageTypeWinRates = allPageTypes.map(pageType => {
+        let testsWithThatPageType = data.filter(test => test.page === pageType);
+        let winningTests = testsWithThatPageType.filter(test => test.status === "win").length;
+        let completedTests = testsWithThatPageType.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
+        let winRate = winningTests / completedTests;
+        return { type: "pageType", pageType, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) / 2 }
+    })
+
+    //by hypothesis x page type
+    //for each hypothesis
+    let hypothesisXPageTypeWinRates = [];
+    allHypotheses.forEach(hypothesis => {
+        //for each page type
+        allPageTypes.forEach(pageType => {
+            let testsWithThatCombination = data.filter(test => (test.page === pageType && test.hypothesis === hypothesis));
+            let winningTests = testsWithThatCombination.filter(test => test.status === "win").length;
+            let completedTests = testsWithThatCombination.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
+            let winRate = winningTests / completedTests;
+            hypothesisXPageTypeWinRates.push({ type: "hypothesisXPageType", pageType, hypothesis, winRate, completedTests });
+        })
+    })
+    hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, { insightScore: getInsightScore(1 - observation.winRate, observation.completedTests) / 2 }));
+
+    let result = [];
+    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0).map(observation => Object.assign(observation, { insight: "lowWinrate" }));
 }
 
 function getOpportunities(data) {

@@ -87,6 +87,40 @@ export default class Insights extends React.Component {
         )
     }
 
+    buildLowWinrateInsight(insight) {
+        let recommendation = '';
+        let button = '';
+        switch (insight.type) {
+            case 'hypothesis':
+                recommendation = `Tests with hypothesis "${insight.hypothesis}" have a low winrate.`;
+                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{ column: 'hypothesis', condition: insight.hypothesis }])}>View Tests</ StyledShowTestsButton>
+                break;
+            case 'pageType':
+                recommendation = `Tests targeting page type "${insight.pageType}" have a low winrate.`;
+                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{ column: 'page', condition: insight.pageType }])}>View Tests</ StyledShowTestsButton>
+                break;
+            case 'hypothesisXPageType':
+                recommendation = `Tests targeting page type "${insight.pageType}" with hypothesis "${insight.hypothesis}" have a low winrate.`;
+                button = <StyledShowTestsButton onClick={e => this.props.handleFilteredDatabaseLoad([{ column: 'hypothesis', condition: insight.hypothesis }, { column: 'page', condition: insight.pageType }])}>View Tests</ StyledShowTestsButton>
+                break;
+            default:
+                recommendation = 'Recommendation not found';
+        }
+        return (
+            <StyledInsight>
+                <StyledInsightScore>{Math.round(insight.insightScore)}</StyledInsightScore>
+                <StyledInsightDetails>
+                    <StyledInsightRecommendation>{recommendation}</StyledInsightRecommendation>
+                    <StyledInsightSupportingDetails>
+                        {Math.round(insight.winRate * 100)}% winrate ·&nbsp;
+                        {insight.completedTests} tests completed
+                    </StyledInsightSupportingDetails>
+                </StyledInsightDetails>
+                {button}
+            </StyledInsight>
+        )
+    }
+
     buildOpportunityInsight(insight){
         return(
             <StyledInsight>
@@ -107,6 +141,9 @@ export default class Insights extends React.Component {
                 break;
             case 'opportunity':
                 insight = this.buildOpportunityInsight(this.props.insight);
+                break;
+            case 'lowWinrate':
+                insight = this.buildLowWinrateInsight(this.props.insight);
                 break;
             default:
                 break;
