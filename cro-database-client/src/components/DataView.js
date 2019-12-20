@@ -28,7 +28,7 @@ export default class DataView extends React.Component {
             <StyledDataView>
                 <DataSummary numberOfTests={numberOfTests} winPercent={Math.round(numberOfWins * 100 / numberOfCompletedTests)} />
                 <MoreInfo data={this.props.data} allPageTypes={this.props.allPageTypes} allTestStatuses={this.props.allTestStatuses} />
-                <RedesignedDataTable data={this.props.data} onColumnClick={this.props.onColumnClick} searchString={this.props.searchString} />
+                <DataTable data={this.props.data} onColumnClick={this.props.onColumnClick} searchString={this.props.searchString} />
             </StyledDataView>
         )
     }
