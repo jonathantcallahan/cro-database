@@ -10,6 +10,7 @@ const StyledDatabase = styled.div`
 `;
 
 class Database extends React.Component {
+  //Database is a high-level component which holds data, and contains a Filters component and DataView (which itself has the data table, summary at the top, and "More Info" area)
   constructor(props) {
     super(props);
     //state contains allData - an array of test objects, and appliedFilters, an array of objects like {column: x, condition: y}, to apply to allData

@@ -10,7 +10,7 @@ const StyledInsights = styled.div`
 `
 
 function getInsights(data) {
-    console.log(getLowWinrates(data).sort((a, b) => b.insightScore - a.insightScore));
+    //assembles array of insight objects using different criteria to be passed to Insight.js which builds them
     return getHighWinrates(data).concat(getOpportunities(data)).concat(getLowWinrates(data));
 }
 
@@ -100,6 +100,7 @@ function getLowWinrates(data) {
 }
 
 function getOpportunities(data) {
+    //NOTE: all insight scores here are 50, unsure what they should be
     //by client x page type
     let allPageTypes = ['pdp', 'cart', 'homepage', 'global', 'plp', 'search', 'checkout', 'category'];
     let allClients = [...new Set(data.map(test => test.client))].filter(option => option !== "");

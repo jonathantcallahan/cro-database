@@ -135,6 +135,7 @@ export default class Insights extends React.Component {
 
     render() {
         let insight = '';
+        //calls appropriate build method depending on the insight type
         switch (this.props.insight.insight){
             case 'highWinrate':
                 insight = this.buildHighWinrateInsight(this.props.insight);
