@@ -104,8 +104,9 @@ function getOpportunities(data) {
     //by client x page type
     let allPageTypes = ['pdp', 'cart', 'homepage', 'global', 'plp', 'search', 'checkout', 'category'];
     let allClients = [...new Set(data.map(test => test.client))].filter(option => option !== "");
+    let inactiveClients = ['Jomashop', 'Lumber Liquidators'];
     let result = [];
-    allClients.forEach(function (client) {
+    allClients.filter(client => !inactiveClients.includes(client)).forEach(function (client) {
         const thatClientsTests = data.filter(test => test.client === client);
         allPageTypes.forEach(function (pageType) {
             const clientTestsOnThatPageType = thatClientsTests.filter(test => test.page === pageType);
