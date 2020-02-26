@@ -22,25 +22,20 @@ const StyledNavButton = styled.button`
 export default class Navigation extends React.Component {
 
     render() {
-        let betaStyles = {
-            textTransform: "uppercase",
-            fontSize: "10px",
-            position: "absolute",
-            top: "6px",
-            right: "3px"
-        }
 
         let activeButtonStyles = {
             borderBottom: "3px solid rgb(0, 76, 154)"
         }
 
         let databaseButton = <StyledNavButton onClick={e => this.props.onClick("database")} style={this.props.activeButton === "database" ? activeButtonStyles : {}}>Database</StyledNavButton>;
-        let insightsButton = <StyledNavButton onClick={e => this.props.onClick("insights")} style={this.props.activeButton === "insights" ? activeButtonStyles : {}}>Insights <span style={betaStyles}>beta</span></StyledNavButton>
+        let insightsButton = <StyledNavButton onClick={e => this.props.onClick("insights")} style={this.props.activeButton === "insights" ? activeButtonStyles : {}}>Insights</StyledNavButton>
+        let opportunitiesButton = <StyledNavButton onClick={e => this.props.onClick("opportunities")} style={this.props.activeButton === "opportunities" ? activeButtonStyles : {}}>Opportunities</StyledNavButton>
 
         return (
         <StyledNavigation>
             {databaseButton}
             {insightsButton}
+            {opportunitiesButton}
         </StyledNavigation>
         )
     }

@@ -123,8 +123,7 @@ export default class Insights extends React.Component {
 
     buildOpportunityInsight(insight){
         return(
-            <StyledInsight>
-                <StyledInsightScore>{Math.round(insight.insightScore)}</StyledInsightScore>
+            <StyledInsight style={{gridTemplateColumns: "1fr max-content"}}>
                 <StyledInsightDetails>
                     <StyledInsightRecommendation>Client "{insight.client}" has had no tests on page type "{insight.pageType}".</StyledInsightRecommendation>
                 </StyledInsightDetails>

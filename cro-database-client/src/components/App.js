@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Database from './Database';
 import Insights from './Insights';
 import Navigation from './Navigation';
+import Opportunities from './Opportunities';
 
 import data from '../wiifmData';
 import '../reset.css';
@@ -33,9 +34,22 @@ class App extends React.Component {
     }
 
     render() {
-        let windowContents = this.state.navigation === 'database' ? 
-            <Database data={data} filters={this.state.initialFilters} /> : 
-            <Insights data={data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} />;
+        let windowContents;
+        
+        switch(this.state.navigation){
+            case 'database':
+                windowContents = <Database data={data} filters={this.state.initialFilters} />;
+                break;
+            case 'insights':
+                windowContents = <Insights data={data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} />;
+                break;
+            case 'opportunities':
+                windowContents = <Opportunities data={data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} />;
+                break;
+            default:
+                windowContents = <Database data={data} filters={this.state.initialFilters} />;
+                break;
+        }
             
         return (
             <StyledApp>

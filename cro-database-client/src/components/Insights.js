@@ -11,7 +11,7 @@ const StyledInsights = styled.div`
 
 function getInsights(data) {
     //assembles array of insight objects using different criteria to be passed to Insight.js which builds them
-    return getHighWinrates(data).concat(getOpportunities(data)).concat(getLowWinrates(data));
+    return getHighWinrates(data).concat(getLowWinrates(data));
 }
 
 function getHighWinrates(data) {
@@ -97,25 +97,6 @@ function getLowWinrates(data) {
 
     let result = [];
     return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0).map(observation => Object.assign(observation, { insight: "lowWinrate" }));
-}
-
-function getOpportunities(data) {
-    //NOTE: all insight scores here are 50, unsure what they should be
-    //by client x page type
-    let allPageTypes = ['pdp', 'cart', 'homepage', 'global', 'plp', 'search', 'checkout', 'category'];
-    let allClients = [...new Set(data.map(test => test.client))].filter(option => option !== "");
-    let inactiveClients = ['Jomashop', 'Lumber Liquidators'];
-    let result = [];
-    allClients.filter(client => !inactiveClients.includes(client)).forEach(function (client) {
-        const thatClientsTests = data.filter(test => test.client === client);
-        allPageTypes.forEach(function (pageType) {
-            const clientTestsOnThatPageType = thatClientsTests.filter(test => test.page === pageType);
-            if (!clientTestsOnThatPageType.length) {
-                result.push({ insight: "opportunity", pageType, client, insightScore: 50 });
-            }
-        })
-    })
-    return result;
 }
 
 function getInsightScore(winRate, completedTests) {
