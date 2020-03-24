@@ -30,12 +30,14 @@ export default class Navigation extends React.Component {
         let databaseButton = <StyledNavButton onClick={e => this.props.onClick("database")} style={this.props.activeButton === "database" ? activeButtonStyles : {}}>Database</StyledNavButton>;
         let insightsButton = <StyledNavButton onClick={e => this.props.onClick("insights")} style={this.props.activeButton === "insights" ? activeButtonStyles : {}}>Insights</StyledNavButton>
         let opportunitiesButton = <StyledNavButton onClick={e => this.props.onClick("opportunities")} style={this.props.activeButton === "opportunities" ? activeButtonStyles : {}}>Opportunities</StyledNavButton>
+        let postItsButton = <StyledNavButton onClick={e => this.props.onClick("postIts")} style={this.props.activeButton === "postIts" ? activeButtonStyles : {}}>Post-Its</StyledNavButton>
 
         return (
         <StyledNavigation>
             {databaseButton}
             {insightsButton}
             {opportunitiesButton}
+            {postItsButton}
         </StyledNavigation>
         )
     }

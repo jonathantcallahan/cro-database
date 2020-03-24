@@ -5,6 +5,7 @@ import Database from './Database';
 import Insights from './Insights';
 import Navigation from './Navigation';
 import Opportunities from './Opportunities';
+import PostIts from './PostIts';
 
 import data from '../wiifmData';
 import '../reset.css';
@@ -45,6 +46,9 @@ class App extends React.Component {
                 break;
             case 'opportunities':
                 windowContents = <Opportunities data={data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} />;
+                break;
+            case 'postIts':
+                windowContents = <PostIts data={data} />;
                 break;
             default:
                 windowContents = <Database data={data} filters={this.state.initialFilters} />;
