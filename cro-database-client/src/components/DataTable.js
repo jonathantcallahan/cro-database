@@ -75,7 +75,7 @@ export default class DataTable extends React.Component {
     let trs = this.props.data.map(function (record, key) {
       let tds = Object.keys(record).map((field, key) => {
         //all this stuff handles highlighting the search text
-        let text = record[field].toString();
+        let text = record[field] ? record[field].toString() : '';
         let index = text.toString().toLowerCase().indexOf(searchText);
         if (index !== -1) {
           return <StyledTd key={key}>{text.substring(0, index)}<StyledSearchMatch>{text.substr(index, searchText.length)}</StyledSearchMatch>{text.substring(index + searchText.length)}</StyledTd>

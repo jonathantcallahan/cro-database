@@ -32,20 +32,20 @@ class Database extends React.Component {
     columnName = columnName.toLowerCase();
     let sortedData = this.state.allData.sort(
       function (testA, testB) {
-        if(testA[columnName] === ''){
+        if (testA[columnName] === '') {
           return -1;
         }
-        if(testB[columnName] === ''){
+        if (testB[columnName] === '') {
           return 1;
         }
         //numerical sorting
-        if(columnName === "rev lift" || columnName === "uplift" || columnName === "transaction lift"){
+        if (columnName === "rev lift" || columnName === "uplift" || columnName === "transaction lift") {
           let numA = accounting.unformat(testA[columnName]);
           let numB = accounting.unformat(testB[columnName]);
           return numA - numB;
         }
         //date sorting
-        else if(columnName === "suggested" || columnName === "start date" || columnName === "date completed"){
+        else if (columnName === "suggested" || columnName === "start date" || columnName === "date completed") {
           let arrA = testA[columnName].split('/');
           let arrB = testB[columnName].split('/');
           let yearA = arrA[2];
@@ -54,10 +54,10 @@ class Database extends React.Component {
           let yearB = arrB[2];
           let monthB = arrB[0];
           let dayB = arrB[1];
-          if (yearA !== yearB){
+          if (yearA !== yearB) {
             return yearA - yearB;
           }
-          else if (monthA !== monthB){
+          else if (monthA !== monthB) {
             return monthA - monthB;
           }
           else {
@@ -128,8 +128,10 @@ class Database extends React.Component {
   getFilteredData() {
     let searchedData = this.state.allData.filter(test => {
       for (let column in test) {
-        if (test[column].toString().toLowerCase().includes(this.state.searchString)) {
-          return true;
+        if (test[column]) {
+          if (test[column].toString().toLowerCase().includes(this.state.searchString)) {
+            return true;
+          }
         }
       }
       return false;

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const StyledDropdownFilter = styled.div`
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #bbb;
     &:hover{
         border-bottom-color: #888;
     }
