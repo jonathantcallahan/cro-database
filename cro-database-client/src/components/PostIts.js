@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 
 const StyledPostIts = styled.div`
     background: #fff;
@@ -64,7 +65,9 @@ export default class PostIts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allData: this.props.data
+            allData: this.props.data,
+            dateRangeStart: "12/1/2019", //temporary dateRange for testing
+            dateRangeEnd: "1/30/2020"
         }
     }
 
@@ -83,12 +86,15 @@ export default class PostIts extends React.Component {
         let runningTests = [];
         let winningTests = [];
         let lossInconclusiveTests = [];
+        let dataWithinDateRange = this.state.allData.filter(test => {
+            return (moment(test["date completed"]).isBetween(moment(this.state.dateRangeStart), moment(this.state.dateRangeEnd)) || (test["status"] === "running"));
+        });
 
         //For each specialist...
         for (let specialist in specialistsAndClients){
             //For each client...
             specialistsAndClients[specialist].forEach(client => {
-                let clientsTests = this.state.allData.filter(test => test.client === client);
+                let clientsTests = dataWithinDateRange.filter(test => test.client === client);
                 let clientsRunningTests = clientsTests.filter(test => test.status === "running");
                 clientsRunningTests.forEach(test => {
                     runningTests.push(this.createNote(test['client'], specialist, test['test name']));
