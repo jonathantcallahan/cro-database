@@ -66,7 +66,6 @@ export default class PostIts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allData: this.props.data,
             dateRangeStart: "12/1/2019", //temporary dateRange for testing
             dateRangeEnd: "1/30/2020"
         }
@@ -87,9 +86,10 @@ export default class PostIts extends React.Component {
         let runningTests = [];
         let winningTests = [];
         let lossInconclusiveTests = [];
-        let dataWithinDateRange = this.state.allData.filter(test => {
+        let dataWithinDateRange = this.props.data.filter(test => {
             return (moment(test["date completed"]).isBetween(moment(this.state.dateRangeStart), moment(this.state.dateRangeEnd)) || (test["status"] === "running"));
         });
+        console.log(dataWithinDateRange);
 
         //For each specialist...
         for (let specialist in specialistsAndClients){
