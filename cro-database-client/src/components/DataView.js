@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import DataTable from './DataTable';
 import DataSummary from './DataSummary';
 import MoreInfo from'./MoreInfo';
-import RedesignedDataTable from'./RedesignedDataTable';
+//import RedesignedDataTable from'./RedesignedDataTable';
 
 const StyledDataView = styled.div`
     width: 83vw;

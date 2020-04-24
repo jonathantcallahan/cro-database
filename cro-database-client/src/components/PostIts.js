@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+moment.suppressDeprecationWarnings = true;
 
 const StyledPostIts = styled.div`
     background: #fff;
@@ -71,10 +72,10 @@ export default class PostIts extends React.Component {
         }
     }
 
-    createNote(client, specialist, testName){
+    createNote(client, specialist, testName, key){
         //specialist class CSS is defined in index.css
         return (
-            <StyledNote className={specialist}>
+            <StyledNote className={specialist} key={key}>
                 <StyledClientName>{client}</StyledClientName>
                 <StyledTestName>{testName}</StyledTestName>
                 <StyledSpecialistName>{specialist}</StyledSpecialistName>
@@ -93,19 +94,19 @@ export default class PostIts extends React.Component {
         //For each specialist...
         for (let specialist in specialistsAndClients){
             //For each client...
-            specialistsAndClients[specialist].forEach(client => {
+            specialistsAndClients[specialist].forEach((client, key1) => {
                 let clientsTests = dataWithinDateRange.filter(test => test.client === client);
                 let clientsRunningTests = clientsTests.filter(test => test.status === "running");
-                clientsRunningTests.forEach(test => {
-                    runningTests.push(this.createNote(test['client'], specialist, test['test name']));
+                clientsRunningTests.forEach((test, key2) => {
+                    runningTests.push(this.createNote(test['client'], specialist, test['test name'], specialist + key1.toString() + key2.toString()));
                 });
                 let clientsWinningTests = clientsTests.filter(test => test.status === "win");
-                clientsWinningTests.forEach(test => {
-                    winningTests.push(this.createNote(test['client'], specialist, test['test name']));
+                clientsWinningTests.forEach((test, key2) => {
+                    winningTests.push(this.createNote(test['client'], specialist, test['test name'], specialist + key1.toString() + key2.toString()));
                 });
                 let clientsLossInconclusiveTests = clientsTests.filter(test => test.status === "loss" || test.status === "inconclusive");
-                clientsLossInconclusiveTests.forEach(test => {
-                    lossInconclusiveTests.push(this.createNote(test['client'], specialist, test['test name']));
+                clientsLossInconclusiveTests.forEach((test, key2) => {
+                    lossInconclusiveTests.push(this.createNote(test['client'], specialist, test['test name'], specialist + key1.toString() + key2.toString()));
                 });            
             })
         }
