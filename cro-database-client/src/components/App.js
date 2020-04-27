@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import accounting from 'accounting';
+import moment from 'moment';
 
 import Database from './Database';
 import Insights from './Insights';
@@ -33,7 +34,7 @@ class App extends React.Component {
     //fetch data from API
     componentDidMount() {
         //toggle this to switch between API data and sample data
-        const useAPIData = false;
+        const useAPIData = true;
         if (useAPIData) {
             var requestOptions = {
                 method: 'GET',
@@ -43,20 +44,36 @@ class App extends React.Component {
             fetch("https://cro-interface.herokuapp.com/api/all-tests", requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    const columnOrder = ["Test Name", "Status", "Uplift", "Proj. Monthly Rev Lift", "Proj. Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
+                    console.log(result);
+                    const columnOrder = ["Test Name", "Status", "Uplift", "Projected Monthly Rev Lift", "Projected Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
 
                     const formattedData = result.map(test => {
                         let formattedTest = {};
                         columnOrder.forEach(column => {
-                            if (column === "Proj. Monthly Rev Lift") {
-                                formattedTest["rev lift"] = test[column];
-                                return;
+                            switch(column){
+                                case "Projected Monthly Rev Lift":
+                                    formattedTest["rev lift"] = test[column] ? accounting.formatMoney(parseFloat(test[column]).toFixed(0)) : '-';
+                                    break;
+                                case "Projected Monthly Lift in Transactions":
+                                    formattedTest["transaction lift"] = test[column] ? accounting.formatMoney(parseFloat(test[column]).toFixed(0)) : '-';
+                                    break;
+                                case "Uplift":
+                                    formattedTest["uplift"] = test[column] ? accounting.toFixed((test[column] * 100), 1) + '%' : '-';
+                                    break;
+
+                                case "Suggested":
+                                    formattedTest["suggested"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    break;
+                                case "Start Date":
+                                    formattedTest["start date"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    break;
+                                case "Date Completed":
+                                    formattedTest["date completed"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    break;
+                                default:
+                                    formattedTest[column.toLowerCase()] = test[column];
+                                    break;
                             }
-                            if (column === "Proj. Monthly Lift in Transactions") {
-                                formattedTest["transaction lift"] = test[column];
-                                return;
-                            }
-                            formattedTest[column.toLowerCase()] = test[column];
                         });
                         return formattedTest;
                     });
