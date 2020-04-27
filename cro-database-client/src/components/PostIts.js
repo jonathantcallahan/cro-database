@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 moment.suppressDeprecationWarnings = true;
 
@@ -66,12 +68,12 @@ export default class PostIts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dateRangeStart: "12/1/2019", //temporary dateRange for testing
+            dateRangeStart: '', //temporary dateRange for testing
             dateRangeEnd: "1/30/2020"
         }
     }
 
-    createNote(client, specialist, testName, key){
+    createNote(client, specialist, testName, key) {
         //specialist class CSS is defined in index.css
         return (
             <StyledNote className={specialist} key={key}>
@@ -82,6 +84,14 @@ export default class PostIts extends React.Component {
         )
     }
 
+    //https://www.npmjs.com/package/react-datepicker
+    //maybe try https://www.npmjs.com/package/react-date-range
+    handleChange = date => {
+        this.setState({
+            dateRangeStart: date
+        });
+    };
+
     render() {
         let runningTests = [];
         let winningTests = [];
@@ -89,10 +99,9 @@ export default class PostIts extends React.Component {
         let dataWithinDateRange = this.props.data.filter(test => {
             return (moment(test["date completed"]).isBetween(moment(this.state.dateRangeStart), moment(this.state.dateRangeEnd)) || (test["status"] === "running"));
         });
-        console.log(dataWithinDateRange);
 
         //For each specialist...
-        for (let specialist in specialistsAndClients){
+        for (let specialist in specialistsAndClients) {
             //For each client...
             specialistsAndClients[specialist].forEach((client, key1) => {
                 let clientsTests = dataWithinDateRange.filter(test => test.client === client);
@@ -107,19 +116,23 @@ export default class PostIts extends React.Component {
                 let clientsLossInconclusiveTests = clientsTests.filter(test => test.status === "loss" || test.status === "inconclusive");
                 clientsLossInconclusiveTests.forEach((test, key2) => {
                     lossInconclusiveTests.push(this.createNote(test['client'], specialist, test['test name'], specialist + key1.toString() + key2.toString()));
-                });            
+                });
             })
         }
 
         return (
-        <StyledPostIts>
-            <StyledHeading>Currently Running</StyledHeading>
-            <StyledNoteContainer>{runningTests}</StyledNoteContainer>
-            <StyledHeading>Winning Tests</StyledHeading>
-            <StyledNoteContainer>{winningTests}</StyledNoteContainer>
-            <StyledHeading>Loss/Inconclusive</StyledHeading>
-            <StyledNoteContainer>{lossInconclusiveTests}</StyledNoteContainer>
-        </StyledPostIts>
+            <StyledPostIts>
+                <DatePicker
+                    selected={this.state.dateRangeStart}
+                    onChange={this.handleChange}
+                />
+                <StyledHeading>Currently Running</StyledHeading>
+                <StyledNoteContainer>{runningTests}</StyledNoteContainer>
+                <StyledHeading>Winning Tests</StyledHeading>
+                <StyledNoteContainer>{winningTests}</StyledNoteContainer>
+                <StyledHeading>Loss/Inconclusive</StyledHeading>
+                <StyledNoteContainer>{lossInconclusiveTests}</StyledNoteContainer>
+            </StyledPostIts>
         )
     }
 }

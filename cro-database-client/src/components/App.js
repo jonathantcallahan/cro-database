@@ -49,8 +49,9 @@ class App extends React.Component {
 
                     const formattedData = result.map(test => {
                         let formattedTest = {};
+                        //this does some formatting to certain columns (converting dates, etc)
                         columnOrder.forEach(column => {
-                            switch(column){
+                            switch (column) {
                                 case "Projected Monthly Rev Lift":
                                     formattedTest["rev lift"] = test[column] ? accounting.formatMoney(parseFloat(test[column]).toFixed(0)) : '-';
                                     break;
@@ -60,15 +61,18 @@ class App extends React.Component {
                                 case "Uplift":
                                     formattedTest["uplift"] = test[column] ? accounting.toFixed((test[column] * 100), 1) + '%' : '-';
                                     break;
-
                                 case "Suggested":
-                                    formattedTest["suggested"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    formattedTest["suggested"] = moment(test[column]).isValid() ? moment(test[column]).format('MM/DD/YY') : '-';
                                     break;
                                 case "Start Date":
-                                    formattedTest["start date"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    formattedTest["start date"] = moment(test[column]).isValid() ? moment(test[column]).format('MM/DD/YY') : '-';
                                     break;
                                 case "Date Completed":
-                                    formattedTest["date completed"] = test[column] ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    formattedTest["date completed"] = moment(test[column]).isValid() ? moment(test[column]).format('MM/DD/YY') : '-';
+                                    break;
+                                case "Page":
+                                    //title case for all page types except PLP and PDP
+                                    formattedTest["page"] = ["PLP", "PDP"].includes(test[column].toUpperCase()) ? test[column].toUpperCase() : test[column].split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
                                     break;
                                 default:
                                     formattedTest[column.toLowerCase()] = test[column];
@@ -138,7 +142,7 @@ class App extends React.Component {
                 })
                 .catch(error => console.log('error', error));
         }
-        else{
+        else {
             this.setState({ data: sampleData, key: Math.random() });
         }
     }
@@ -156,19 +160,19 @@ class App extends React.Component {
 
         switch (this.state.navigation) {
             case 'database':
-                windowContents = <Database data={this.state.data} filters={this.state.initialFilters} key={this.state.key}/>;
+                windowContents = <Database data={this.state.data} filters={this.state.initialFilters} key={this.state.key} />;
                 break;
             case 'insights':
-                windowContents = <Insights data={this.state.data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} key={this.state.key}/>;
+                windowContents = <Insights data={this.state.data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} key={this.state.key} />;
                 break;
             case 'opportunities':
-                windowContents = <Opportunities data={this.state.data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} key={this.state.key}/>;
+                windowContents = <Opportunities data={this.state.data} handleFilteredDatabaseLoad={this.loadDatabaseWithFilters} key={this.state.key} />;
                 break;
             case 'postIts':
-                windowContents = <PostIts data={this.state.data} key={this.state.key}/>;
+                windowContents = <PostIts data={this.state.data} key={this.state.key} />;
                 break;
             default:
-                windowContents = <Database data={this.state.data} filters={this.state.initialFilters} key={this.state.key}/>;
+                windowContents = <Database data={this.state.data} filters={this.state.initialFilters} key={this.state.key} />;
                 break;
         }
 
