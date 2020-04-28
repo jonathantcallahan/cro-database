@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { subDays } from 'date-fns';
 import moment from 'moment';
 moment.suppressDeprecationWarnings = true;
+
 
 const StyledPostIts = styled.div`
     background: #fff;
@@ -68,8 +68,8 @@ export default class PostIts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dateRangeStart: '', //temporary dateRange for testing
-            dateRangeEnd: "1/30/2020"
+            dateRangeStart: subDays(new Date(), 30),
+            dateRangeEnd: new Date()
         }
     }
 
@@ -83,14 +83,6 @@ export default class PostIts extends React.Component {
             </StyledNote>
         )
     }
-
-    //https://www.npmjs.com/package/react-datepicker
-    //maybe try https://www.npmjs.com/package/react-date-range
-    handleChange = date => {
-        this.setState({
-            dateRangeStart: date
-        });
-    };
 
     render() {
         let runningTests = [];
@@ -122,10 +114,6 @@ export default class PostIts extends React.Component {
 
         return (
             <StyledPostIts>
-                <DatePicker
-                    selected={this.state.dateRangeStart}
-                    onChange={this.handleChange}
-                />
                 <StyledHeading>Currently Running</StyledHeading>
                 <StyledNoteContainer>{runningTests}</StyledNoteContainer>
                 <StyledHeading>Winning Tests</StyledHeading>
