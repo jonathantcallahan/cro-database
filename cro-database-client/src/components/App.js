@@ -101,6 +101,12 @@ class App extends React.Component {
                                 }
                                 //date sorting
                                 else if (columnName === "suggested" || columnName === "start date" || columnName === "date completed") {
+                                    if(testA[columnName] === '-'){
+                                        return 1;
+                                    }
+                                    if(testB[columnName] === '-'){
+                                        return -1;
+                                    }
                                     let arrA = testA[columnName].split('/');
                                     let arrB = testB[columnName].split('/');
                                     let yearA = arrA[2];
