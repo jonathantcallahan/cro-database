@@ -145,7 +145,7 @@ class App extends React.Component {
                     }
                     let importedData = sortByColumn(formattedData, "Date Completed", "down");
                     console.log(importedData);
-                    this.setState({ data: importedData, key: Math.random(), navigation: 'database'});
+                    this.setState({ data: importedData, key: Math.random(), navigation: 'postIts'});
                 })
                 .catch(error => console.log('error', error));
         }
