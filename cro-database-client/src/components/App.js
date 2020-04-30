@@ -8,6 +8,7 @@ import Insights from './Insights';
 import Navigation from './Navigation';
 import Opportunities from './Opportunities';
 import PostIts from './PostIts';
+import LoadingScreen from './LoadingScreen';
 
 //everything was built originally with "wwifmData", just need to update so it looks the same with actual API
 import sampleData from '../wiifmData';
@@ -21,11 +22,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            navigation: 'database',
+            navigation: 'loading',
             //initialFilters are used to load the database with filters applied from the insights page
             initialFilters: [],
             data: [],
-            key: 0 //key is changed by the fetch request in componentDidMount(), which triggers all components to rerender when data comes in
+            key: 0, //key is changed by the fetch request in componentDidMount(), which triggers all components to rerender when data comes in
         };
         this.updateNavigation = this.updateNavigation.bind(this);
         this.loadDatabaseWithFilters = this.loadDatabaseWithFilters.bind(this);
@@ -144,12 +145,12 @@ class App extends React.Component {
                     }
                     let importedData = sortByColumn(formattedData, "Date Completed", "down");
                     console.log(importedData);
-                    this.setState({ data: importedData, key: Math.random() });
+                    this.setState({ data: importedData, key: Math.random(), navigation: 'database'});
                 })
                 .catch(error => console.log('error', error));
         }
         else {
-            this.setState({ data: sampleData, key: Math.random() });
+            this.setState({ data: sampleData, key: Math.random(), navigation: 'database'});
         }
     }
 
@@ -165,6 +166,9 @@ class App extends React.Component {
         let windowContents;
 
         switch (this.state.navigation) {
+            case 'loading':
+                windowContents = <LoadingScreen />;
+                break;
             case 'database':
                 windowContents = <Database data={this.state.data} filters={this.state.initialFilters} key={this.state.key} />;
                 break;
