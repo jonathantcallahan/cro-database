@@ -48,7 +48,7 @@ class App extends React.Component {
                     console.log(result);
                     const columnOrder = ["Test Name", "Status", "Uplift", "Projected Monthly Rev Lift", "Projected Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
 
-                    const formattedData = result.map(test => {
+                    const formattedData = result.filter(test => ["win", "loss", "inconclusive"].includes(test['Status'].toLowerCase())).map(test => {
                         let formattedTest = {};
                         //this does some formatting to certain columns (converting dates, etc)
                         columnOrder.forEach(column => {
@@ -73,10 +73,13 @@ class App extends React.Component {
                                     break;
                                 case "Page":
                                     //title case for all page types except PLP and PDP
-                                    formattedTest["page"] = ["PLP", "PDP"].includes(test[column].toUpperCase()) ? test[column].toUpperCase() : test[column].split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
+                                    if(test[column]){
+                                        formattedTest["page"] = ["PLP", "PDP"].includes(test[column].toUpperCase()) ? test[column].toUpperCase().trim() : test[column].split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ').trim();
+                                    }
+                                    else{ formattedTest["page"] = '-' }
                                     break;
                                 default:
-                                    formattedTest[column.toLowerCase()] = test[column];
+                                    formattedTest[column.toLowerCase()] = test[column] ? test[column].trim() : test[column];
                                     break;
                             }
                         });
@@ -145,7 +148,7 @@ class App extends React.Component {
                     }
                     let importedData = sortByColumn(formattedData, "Date Completed", "down");
                     console.log(importedData);
-                    this.setState({ data: importedData, key: Math.random(), navigation: 'postIts'});
+                    this.setState({ data: importedData, key: Math.random(), navigation: 'database'});
                 })
                 .catch(error => console.log('error', error));
         }

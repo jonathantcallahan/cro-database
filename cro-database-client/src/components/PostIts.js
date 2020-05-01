@@ -84,6 +84,9 @@ const StyledTestName = styled.div`
 `
 const StyledOptions = styled.div`
     margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `
 const StyledDateButton = styled.button`
     text-transform: uppercase;
@@ -173,7 +176,7 @@ export default class PostIts extends React.Component {
         }
     }
 
-    handleViewChange(string){
+    handleViewChange(string) {
         this.setState({ display: string });
     }
 
@@ -208,11 +211,15 @@ export default class PostIts extends React.Component {
         return (
             <StyledPostIts>
                 <StyledOptions>
-                    <StyledDateButton active={this.state.timeRange === "this-month" ? true : false} onClick={e => this.updateDate('this-month')}>This Month</StyledDateButton>
-                    <StyledDateButton active={this.state.timeRange === "last-month" ? true : false} onClick={e => this.updateDate('last-month')}>Last Month</StyledDateButton>
-                    {this.state.dateRangeStart.format('MMMM Do, YYYY')} - {this.state.dateRangeEnd.format('MMMM Do, YYYY')}
-                    <StyledViewButton active={this.state.display === "grid" ? true : false} onClick={e => this.handleViewChange('grid')}>Grid</StyledViewButton>
-                    <StyledViewButton active={this.state.display === "list" ? true : false} onClick={e => this.handleViewChange('list')}>List</StyledViewButton>
+                    <div>
+                        <StyledDateButton active={this.state.timeRange === "this-month" ? true : false} onClick={e => this.updateDate('this-month')}>This Month</StyledDateButton>
+                        <StyledDateButton active={this.state.timeRange === "last-month" ? true : false} onClick={e => this.updateDate('last-month')}>Last Month</StyledDateButton>
+                        {this.state.dateRangeStart.format('MMMM Do, YYYY')} - {this.state.dateRangeEnd.format('MMMM Do, YYYY')}
+                    </div>
+                    <div>
+                        <StyledViewButton active={this.state.display === "grid" ? true : false} onClick={e => this.handleViewChange('grid')}>Grid</StyledViewButton>
+                        <StyledViewButton active={this.state.display === "list" ? true : false} onClick={e => this.handleViewChange('list')}>List</StyledViewButton>
+                    </div>
                 </StyledOptions>
                 <StyledHeading>Currently Running</StyledHeading>
                 <StyledNoteContainer listView={this.state.display === "list" ? true : false}>{runningTests}</StyledNoteContainer>

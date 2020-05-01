@@ -10,9 +10,8 @@ const StyledOpportunities = styled.div`
 `
 
 function getOpportunities(data) {
-    //NOTE: all insight scores here are 50, unsure what they should be
     //by client x page type
-    let allPageTypes = ['pdp', 'cart', 'homepage', 'global', 'plp', 'search', 'checkout', 'category'];
+    let allPageTypes = ['PDP', 'Cart', 'Homepage', 'Global', 'PLP', 'Search', 'Checkout', 'Category'];
     let allClients = [...new Set(data.map(test => test.client))].filter(option => option !== "");
     let inactiveClients = ['Jomashop', 'Lumber Liquidators'];
     let result = [];

@@ -57,7 +57,7 @@ function getHighWinrates(data) {
 }
 
 function getLowWinrates(data) {
-    //NOTE: insight scores in this function are divided by 2 because they seem less useful
+    //NOTE: insight scores in this function are multiplied at .75 becuase they seem less useful. recommend improving this in the future
     //by hypothesis
     let allHypotheses = [...new Set(data.map(test => test.hypothesis))].filter(option => option !== "");
     //for each hypothesis
@@ -66,7 +66,7 @@ function getLowWinrates(data) {
         let winningTests = testsWithThatHypothesis.filter(test => test.status === "win").length;
         let completedTests = testsWithThatHypothesis.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
         let winRate = winningTests / completedTests;
-        return { type: "hypothesis", hypothesis, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) / 2 };
+        return { type: "hypothesis", hypothesis, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) * .75 };
     })
 
     //by page type
@@ -77,7 +77,7 @@ function getLowWinrates(data) {
         let winningTests = testsWithThatPageType.filter(test => test.status === "win").length;
         let completedTests = testsWithThatPageType.filter(test => test.status === "win" || test.status === "loss" || test.status === "inconclusive").length;
         let winRate = winningTests / completedTests;
-        return { type: "pageType", pageType, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) / 2 }
+        return { type: "pageType", pageType, winRate, completedTests, insightScore: getInsightScore(1 - winRate, completedTests) * .75  }
     })
 
     //by hypothesis x page type
@@ -93,10 +93,13 @@ function getLowWinrates(data) {
             hypothesisXPageTypeWinRates.push({ type: "hypothesisXPageType", pageType, hypothesis, winRate, completedTests });
         })
     })
-    hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, { insightScore: getInsightScore(1 - observation.winRate, observation.completedTests) / 2 }));
+    hypothesisXPageTypeWinRates = hypothesisXPageTypeWinRates.map(observation => Object.assign(observation, { insightScore: getInsightScore(1 - observation.winRate, observation.completedTests) * .75 }));
 
     let result = [];
-    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates).filter(observation => observation.insightScore !== 0).map(observation => Object.assign(observation, { insight: "lowWinrate" }));
+    return result.concat(hypothesisWinRates, pageTypeWinRates, hypothesisXPageTypeWinRates)
+        .filter(observation => observation.insightScore !== 0)
+        .filter(observation => observation.winRate < .4) //has to be <40% to be considered low
+        .map(observation => Object.assign(observation, { insight: "lowWinrate" }));
 }
 
 function getInsightScore(winRate, completedTests) {
