@@ -130,8 +130,9 @@ const StyledViewButton = styled.button`
 //Only this object needs to be updated for specialist/client transitions. 
 //When connected to database, refactor to assign specialist name to data when imported?
 const specialistsAndClients = {
-    Matt: ["Advance Auto Parts", "Do My Own", "Jomashop", "Lumber Liquidators", "Steiner Tractor", "Hausera"],
-    Jonathan: ["Advance Auto Parts", "The Pond Guy", "AED Superstore", "Coleman Furniture", "Heartsmart", "Peter Millar"],
+    MattAndJonathan: ["Advance Auto Parts"],
+    Matt: ["Do My Own", "Jomashop", "Lumber Liquidators", "Steiner Tractor", "Hausera"],
+    Jonathan: ["The Pond Guy", "AED Superstore", "Coleman Furniture", "Heartsmart", "Peter Millar"],
     Riley: ["PUMA"]
 };
 

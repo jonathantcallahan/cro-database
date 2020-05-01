@@ -46,9 +46,11 @@ class App extends React.Component {
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
-                    const columnOrder = ["Test Name", "Status", "Uplift", "Projected Monthly Rev Lift", "Projected Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
+                    //const columnOrder = ["Test Name", "Status", "Uplift", "Projected Monthly Rev Lift", "Projected Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Priority", "Priority Score", "Report", "Notes", "Completed", "High Traffic", "Highly Visible", "Reduces Friction", "Increases Motivation", "Simple Test Build", "GA", "User Testing", "Heuristic Analysis"];
+                    //removing some unused columns
+                    const columnOrder = ["Test Name", "Status", "Uplift", "Projected Monthly Rev Lift", "Projected Monthly Lift in Transactions", "Page", "Client", "Increase/ Decrease", "Hypothesis", "Device", "Primary Metric", "Suggested", "Start Date", "Date Completed", "Industry", "Report", "Notes"];
 
-                    const formattedData = result.filter(test => ["win", "loss", "inconclusive"].includes(test['Status'].toLowerCase())).map(test => {
+                    const formattedData = result.filter(test => (!['upcoming', 'in development', ''].includes(test['Status'].toLowerCase()))).map(test => {
                         let formattedTest = {};
                         //this does some formatting to certain columns (converting dates, etc)
                         columnOrder.forEach(column => {
